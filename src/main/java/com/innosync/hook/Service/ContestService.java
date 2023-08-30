@@ -30,9 +30,9 @@ public class ContestService {
     public void getContestInfo() throws IOException {
 
         Document doc = Jsoup.connect(CONTEST_URL).get();
-        Elements contents = doc.select("#content > div > section.event_main_area > ul > li:nth-child(2) > article.event_area.event_main > a > div.event_thumbnail > img");
+        Elements contents = doc.select("#content > div > section.event_main_area > ul > li:nth-child(3) > article.event_area.event_main > a > div.event_thumbnail > img");
         // li:nth-child(1) () 안에 값 바꿔서 게시물 순서 조정가능
-        Elements dateContents = doc.select("#content > div > section.event_main_area > ul > li:nth-child(2) > article.event_area.event_main > a > div.event_info_area > div.event_info > div.date");
+        Elements dateContents = doc.select("#content > div > section.event_main_area > ul > li:nth-child(3) > article.event_area.event_main > a > div.event_info_area > div.event_info > div.date");
 
         if (!contents.isEmpty() && !dateContents.isEmpty()) {
             Element imgElement = contents.get(0);
@@ -46,12 +46,19 @@ public class ContestService {
             System.out.println("Image URL: " + srcUrl);
             System.out.println("Date Info: " + dateInfo);
 
-            ContestDto contestDto = new ContestDto();
-            contestDto.setTitle(altText); // 제목
-            contestDto.setImgUrl(srcUrl); // 이미지
-            contestDto.setDateTime(dateInfo); // 시간
+            ContestDto contestDto = ContestDto.builder()
+                    .title(altText)
+                    .imgUrl(srcUrl)
+                    .dateTime(dateInfo)
+                    .build();
 
-            ContestEntity contestEntity = modelMapper.map(contestDto, ContestEntity.class);
+            ContestEntity contestEntity = ContestEntity.builder()
+                    .title(contestDto.getTitle())
+                    .imgUrl(contestDto.getImgUrl())
+                    .dateTime(contestDto.getDateTime())
+                    .build();
+
+
             contestRepository.save(contestEntity);
 
         } else {
