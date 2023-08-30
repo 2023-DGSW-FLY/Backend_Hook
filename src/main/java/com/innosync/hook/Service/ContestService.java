@@ -11,6 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class ContestService {
 
 
     @PostConstruct
+    @Scheduled(cron = "0 0 6 * * *") // 초 분 시 날 달 년 (매일 오전 6시에 시작)
     public void getContestInfo() throws IOException {
 
         Document doc = Jsoup.connect(CONTEST_URL).get();
