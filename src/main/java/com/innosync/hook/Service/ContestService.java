@@ -30,39 +30,42 @@ public class ContestService {
     public void getContestInfo() throws IOException {
 
         Document doc = Jsoup.connect(CONTEST_URL).get();
-        Elements contents = doc.select("#content > div > section.event_main_area > ul > li:nth-child(3) > article.event_area.event_main > a > div.event_thumbnail > img");
-        // li:nth-child(1) () 안에 값 바꿔서 게시물 순서 조정가능
-        Elements dateContents = doc.select("#content > div > section.event_main_area > ul > li:nth-child(3) > article.event_area.event_main > a > div.event_info_area > div.event_info > div.date");
+        for (int i=1; i<=20; i++) {
+            String selector1 = String.format("#content > div > section.event_main_area > ul > li:nth-child(%d) > article.event_area.event_main > a > div.event_thumbnail > img", i);
+            Elements contents = doc.select(selector1);
+            // li:nth-child(1) () 안에 값 바꿔서 게시물 순서 조정가능
+            String selector2 = String.format("#content > div > section.event_main_area > ul > li:nth-child(%d) > article.event_area.event_main > a > div.event_info_area > div.event_info > div.date", i);
+            Elements dateContents = doc.select(selector2);
+            if (!contents.isEmpty() && !dateContents.isEmpty()) {
+                Element imgElement = contents.get(0);
+                String altText = imgElement.attr("alt");
+                String srcUrl = imgElement.attr("src");
 
-        if (!contents.isEmpty() && !dateContents.isEmpty()) {
-            Element imgElement = contents.get(0);
-            String altText = imgElement.attr("alt");
-            String srcUrl = imgElement.attr("src");
+                Element dateElement = dateContents.get(0);
+                String dateInfo = dateElement.text();
 
-            Element dateElement = dateContents.get(0);
-            String dateInfo = dateElement.text();
+                System.out.println("Alt Text: " + altText);
+                System.out.println("Image URL: " + srcUrl);
+                System.out.println("Date Info: " + dateInfo);
 
-            System.out.println("Alt Text: " + altText);
-            System.out.println("Image URL: " + srcUrl);
-            System.out.println("Date Info: " + dateInfo);
+                ContestDto contestDto = ContestDto.builder()
+                        .title(altText)
+                        .imgUrl(srcUrl)
+                        .dateTime(dateInfo)
+                        .build();
 
-            ContestDto contestDto = ContestDto.builder()
-                    .title(altText)
-                    .imgUrl(srcUrl)
-                    .dateTime(dateInfo)
-                    .build();
-
-            ContestEntity contestEntity = ContestEntity.builder()
-                    .title(contestDto.getTitle())
-                    .imgUrl(contestDto.getImgUrl())
-                    .dateTime(contestDto.getDateTime())
-                    .build();
+                ContestEntity contestEntity = ContestEntity.builder()
+                        .title(contestDto.getTitle())
+                        .imgUrl(contestDto.getImgUrl())
+                        .dateTime(contestDto.getDateTime())
+                        .build();
 
 
-            contestRepository.save(contestEntity);
+                contestRepository.save(contestEntity);
 
-        } else {
-            System.out.println("No content found.");
+            } else {
+                System.out.println("No content found.");
+            }
         }
     }
 }
