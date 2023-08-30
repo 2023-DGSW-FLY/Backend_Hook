@@ -62,7 +62,6 @@ public class ContestService {
 
 
                 contestRepository.save(contestEntity);
-
             } else {
                 System.out.println("No content found.");
             }
