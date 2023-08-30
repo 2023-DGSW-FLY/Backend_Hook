@@ -14,6 +14,8 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class ContestService {
     private final ContestRepository contestRepository;
 
     private static String CONTEST_URL = "https://www.onoffmix.com/event/main?s=%ED%95%B4%EC%BB%A4%ED%86%A4";
+
 
     @PostConstruct
     public void getContestInfo() throws IOException {
@@ -65,4 +68,20 @@ public class ContestService {
             }
         }
     }
+    public List<ContestDto> getAllContests() {
+        List<ContestEntity> contestEntities = contestRepository.findAll();
+        return contestEntities.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private ContestDto convertToDto(ContestEntity contestEntity) {
+        return ContestDto.builder()
+                .id(contestEntity.getId())
+                .title(contestEntity.getTitle())
+                .imgUrl(contestEntity.getImgUrl())
+                .dateTime(contestEntity.getDateTime())
+                .build();
+    }
+
 }
