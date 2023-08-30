@@ -11,7 +11,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,7 +21,6 @@ import java.io.IOException;
 @Slf4j
 public class ContestService {
     private final ContestRepository contestRepository;
-    private final ModelMapper modelMapper;
 
     private static String CONTEST_URL = "https://www.onoffmix.com/event/main?s=%ED%95%B4%EC%BB%A4%ED%86%A4";
 
