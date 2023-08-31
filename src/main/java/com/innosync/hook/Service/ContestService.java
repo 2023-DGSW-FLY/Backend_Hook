@@ -15,7 +15,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,12 +72,19 @@ public class ContestService {
             }
         }
     }
-    public List<ContestDto> getAllContests() {
+    public Map<String, List<ContestDto>> getAllContests() {
         List<ContestEntity> contestEntities = contestRepository.findAll();
-        return contestEntities.stream()
+
+        List<ContestDto> contestDtos = contestEntities.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+
+        Map<String, List<ContestDto>> resultMap = new HashMap<>();
+        resultMap.put("data", contestDtos);
+
+        return resultMap;
     }
+
 
     private ContestDto convertToDto(ContestEntity contestEntity) {
         return ContestDto.builder()
