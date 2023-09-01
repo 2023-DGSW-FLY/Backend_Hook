@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,24 +64,40 @@ public class ContestService {
                         .title(contestDto.getTitle())
                         .imgUrl(contestDto.getImgUrl())
                         .dateTime(contestDto.getDateTime())
+                        .timestamp(System.currentTimeMillis())
                         .build();
 
-
-                contestRepository.save(contestEntity);
+                if (contestRepository.getContestEntityByTitleContaining(contestDto.getTitle()) == null) {
+                    contestRepository.save(contestEntity);
+                }
             } else {
                 System.out.println("No content found.");
             }
         }
     }
     public Map<String, List<ContestDto>> getAllContests() {
+
         List<ContestEntity> contestEntities = contestRepository.findAll();
 
-        List<ContestDto> contestDtos = contestEntities.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+        contestEntities.sort((a, b) -> Math.toIntExact(b.getTimestamp() - a.getTimestamp()));
+
+        List<ContestEntity> contestDtos = contestEntities.stream()
+                .limit(20).toList();
+
+        ArrayList<ContestEntity> toDeleteList = new ArrayList<>();
+
+        for (ContestEntity entity : contestEntities) {
+            if (!contestDtos.contains(entity)) {
+                toDeleteList.add(entity);
+            }
+        }
+
+        contestRepository.deleteAll(toDeleteList);
 
         Map<String, List<ContestDto>> resultMap = new HashMap<>();
-        resultMap.put("data", contestDtos);
+        resultMap.put("data", contestDtos.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList()));
 
         return resultMap;
     }
