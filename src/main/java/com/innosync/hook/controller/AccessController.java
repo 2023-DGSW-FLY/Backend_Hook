@@ -36,7 +36,7 @@ public class AccessController {
         log.info("DTO : {}" ,dto);
         service.register(dto);
     }
-    // R GET : /{gno},
+    // R GET : /{id},
     @GetMapping("/{id}")
     public AccessDto read(
             @PathVariable("id") Long id
@@ -57,7 +57,7 @@ public class AccessController {
                 .body("success");
     }
 
-    // D DELETE : /{gno}
+    // D DELETE : /{id}
 
     @DeleteMapping("/{id}")
     public void remove(@PathVariable("id") Long id){
