@@ -1,6 +1,6 @@
 package com.innosync.hook.Service;
 
-import com.innosync.hook.constant.AccessStatus;
+import com.innosync.hook.constant.Status;
 import com.innosync.hook.dto.AccessDto;
 import com.innosync.hook.entity.AccessEntity;
 
@@ -34,7 +34,7 @@ public interface AccessService {
                 .stack(dto.getStack())
                 .content(dto.getContent())
                 .url(dto.getUrl())
-                .status(AccessStatus.valueOf(dto.getStatus()))
+                .status(Status.valueOf(dto.getStatus()))
                 .build();
     }
 

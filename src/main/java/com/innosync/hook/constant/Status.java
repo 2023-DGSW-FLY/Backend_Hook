@@ -1,5 +1,5 @@
 package com.innosync.hook.constant;
 
-public enum AccessStatus {
+public enum Status {
     matching, complete
 }
