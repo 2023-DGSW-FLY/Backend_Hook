@@ -1,5 +1,6 @@
 package com.innosync.hook.entity;
 
+import com.innosync.hook.constant.AccessStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,8 @@ public class AccessEntity extends BaseEntity{
     private String content;
     @Column(length = 100)
     private String url;
+    @Enumerated(EnumType.STRING)
+    private AccessStatus status;
 
     public void changeContent(String content) {
         this.content = content;
@@ -30,5 +33,18 @@ public class AccessEntity extends BaseEntity{
 
     public void changeUrl(String url) {
         this.url = url;
+    }
+
+    @PrePersist
+    private void prePersist() {
+        if (status == null) {
+            status = AccessStatus.matching;
+        }
+    }
+    public void changeMatching(){
+        this.status = AccessStatus.matching;
+    }
+    public void changeComplete(){
+        this.status = AccessStatus.complete;
     }
 }

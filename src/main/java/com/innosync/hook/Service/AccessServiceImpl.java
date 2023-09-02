@@ -39,6 +39,25 @@ public class AccessServiceImpl implements AccessService {
         return response;
     }
 
+    @Override
+    public void changeComplete(Long accessId) {
+        Optional<AccessEntity> accessEntityOptional = accessRepository.findById(accessId);
+        if (accessEntityOptional.isPresent()) {
+            AccessEntity accessEntity = accessEntityOptional.get();
+            accessEntity.changeComplete();
+            accessRepository.save(accessEntity);
+        }
+    }
+
+    @Override
+    public void changeMatching(Long accessId) {
+        Optional<AccessEntity> accessEntityOptional = accessRepository.findById(accessId);
+        if (accessEntityOptional.isPresent()) {
+            AccessEntity accessEntity = accessEntityOptional.get();
+            accessEntity.changeMatching();
+            accessRepository.save(accessEntity);
+        }
+    }
 
 
     @Override

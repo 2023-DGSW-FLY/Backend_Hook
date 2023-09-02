@@ -16,5 +16,6 @@ public class AccessDto {
     private String stack;
     private String content;
     private String url;
+    private String status;
     private LocalDateTime regDate, modDate;
 }
