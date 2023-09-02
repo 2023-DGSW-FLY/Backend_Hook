@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -15,6 +17,15 @@ import java.util.Optional;
 @Slf4j
 public class AccessServiceImpl implements AccessService {
     private final AccessRepository accessRepository;
+
+    @Override
+    public List<AccessDto> getAllAccess() {
+        List<AccessEntity> accessEntities = accessRepository.findAll();
+        return accessEntities.stream()
+                .map(this::entityToDTO)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public Long register(AccessDto dto) {
         log.info("====================");
@@ -40,6 +51,7 @@ public class AccessServiceImpl implements AccessService {
             accessRepository.save(accessEntity);
         }
     }
+
 
     @Override
     public void remove(Long id) {

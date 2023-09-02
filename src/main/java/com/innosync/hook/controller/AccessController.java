@@ -20,7 +20,14 @@ public class AccessController {
 
     private final AccessService service;
 
-    // C POST :
+    // GET: /access/all
+    @GetMapping("/all")
+    public List<AccessDto> getAllAccess() {
+        return service.getAllAccess();
+    }
+
+
+    // C POST : /access
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public void register(

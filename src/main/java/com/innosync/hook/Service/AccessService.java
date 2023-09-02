@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
 
 public interface AccessService {
 
+    //get all
+    List<AccessDto> getAllAccess();
+
 
     // C
     Long register(AccessDto dto);
