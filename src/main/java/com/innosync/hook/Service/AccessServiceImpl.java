@@ -1,13 +1,17 @@
 package com.innosync.hook.Service;
 
 import com.innosync.hook.dto.AccessDto;
+import com.innosync.hook.dto.ContestDto;
 import com.innosync.hook.entity.AccessEntity;
+import com.innosync.hook.entity.ContestEntity;
 import com.innosync.hook.repository.AccessRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -19,11 +23,16 @@ public class AccessServiceImpl implements AccessService {
     private final AccessRepository accessRepository;
 
     @Override
-    public List<AccessDto> getAllAccess() {
+    public Map<String , List<AccessDto>> getAllAccess() {
         List<AccessEntity> accessEntities = accessRepository.findAll();
-        return accessEntities.stream()
+        List<AccessDto> accessDtos = accessEntities.stream()
                 .map(this::entityToDTO)
                 .collect(Collectors.toList());
+
+        Map<String, List<AccessDto>> resultMap = new HashMap<>();
+        resultMap.put("data", accessDtos);
+
+        return resultMap;
     }
 
     @Override

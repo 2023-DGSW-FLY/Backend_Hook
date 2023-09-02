@@ -22,7 +22,7 @@ public class AccessController {
 
     // GET: /access/all
     @GetMapping("/all")
-    public List<AccessDto> getAllAccess() {
+    public Map<String, List<AccessDto>> getAllAccess() {
         return service.getAllAccess();
     }
 
