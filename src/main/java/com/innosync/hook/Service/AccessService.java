@@ -19,11 +19,11 @@ public interface AccessService {
     // C
     Long register(AccessDto dto);
     // R
-    AccessDto read(Long id);
+    Map<String, AccessDto> read(Long id);
     // U
     void modify(AccessDto dto);
     // D
-    void remove(Long gno);
+    void remove(Long id);
 
     default AccessEntity dtoToEntity(AccessDto dto) {
         return AccessEntity.builder()

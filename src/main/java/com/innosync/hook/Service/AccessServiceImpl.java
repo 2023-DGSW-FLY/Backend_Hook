@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-@Slf4j
 public class AccessServiceImpl implements AccessService {
     private final AccessRepository accessRepository;
 
@@ -37,17 +36,19 @@ public class AccessServiceImpl implements AccessService {
 
     @Override
     public Long register(AccessDto dto) {
-        log.info("====================");
-        log.info("GuestBook DTO : {}", dto);
         AccessEntity accessEntity = dtoToEntity(dto);
         accessRepository.save(accessEntity);
         return accessEntity.getId();
     }
 
     @Override
-    public AccessDto read(Long id) {
+    public Map<String, AccessDto> read(Long id) {
         Optional<AccessEntity> result = accessRepository.findById(id);
-        return (result.isPresent()) ? entityToDTO(result.get()) : null;
+        Map<String, AccessDto> resultMap = new HashMap<>();
+
+        resultMap.put("data", entityToDTO(result.get()));
+
+        return resultMap;
     }
 
     @Override

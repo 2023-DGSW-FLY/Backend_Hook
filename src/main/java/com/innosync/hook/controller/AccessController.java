@@ -38,7 +38,7 @@ public class AccessController {
     }
     // R GET : /{id},
     @GetMapping("/{id}")
-    public AccessDto read(
+    public Map<String, AccessDto> read(
             @PathVariable("id") Long id
     ){
         log.info("------------------ gno : " + id);
