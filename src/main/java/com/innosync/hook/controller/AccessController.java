@@ -2,7 +2,6 @@ package com.innosync.hook.controller;
 
 import com.innosync.hook.Service.AccessService;
 import com.innosync.hook.dto.AccessDto;
-import com.innosync.hook.dto.ContestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,6 +24,14 @@ public class AccessController {
     public Map<String, List<AccessDto>> getAllAccess() {
         return service.getAllAccess();
     }
+
+    // tag 가져오기 /access/stack?stack=서버개발자
+    @GetMapping("/stack")
+    public Map<String, Object> getAccessByTag(@RequestParam String job) {
+        // 태그를 사용하여 게시물을 가져옵니다.
+        return service.getAccessByTag(job);
+    }
+
 
 
     // C POST : /access

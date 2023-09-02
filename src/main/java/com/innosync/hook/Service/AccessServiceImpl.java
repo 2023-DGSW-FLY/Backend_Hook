@@ -1,12 +1,9 @@
 package com.innosync.hook.Service;
 
 import com.innosync.hook.dto.AccessDto;
-import com.innosync.hook.dto.ContestDto;
 import com.innosync.hook.entity.AccessEntity;
-import com.innosync.hook.entity.ContestEntity;
 import com.innosync.hook.repository.AccessRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -33,6 +30,16 @@ public class AccessServiceImpl implements AccessService {
 
         return resultMap;
     }
+
+    @Override
+    public Map<String, Object> getAccessByTag(String tag) {
+        List<AccessEntity> result = accessRepository.findByStackContaining(tag);
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", result);
+        return response;
+    }
+
+
 
     @Override
     public Long register(AccessDto dto) {

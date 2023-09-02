@@ -1,20 +1,18 @@
 package com.innosync.hook.Service;
 
 import com.innosync.hook.dto.AccessDto;
-import com.innosync.hook.dto.ContestDto;
 import com.innosync.hook.entity.AccessEntity;
-import com.innosync.hook.entity.ContestEntity;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public interface AccessService {
 
     //get all
     Map<String, List<AccessDto>> getAllAccess();
 
+    //tag 값 반환
+    Map<String, Object> getAccessByTag(String tag);
 
     // C
     Long register(AccessDto dto);
