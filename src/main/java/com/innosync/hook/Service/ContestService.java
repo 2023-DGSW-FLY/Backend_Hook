@@ -66,8 +66,8 @@ public class ContestService {
                         .dateTime(contestDto.getDateTime())
                         .timestamp(System.currentTimeMillis())
                         .build();
-
-                if (contestRepository.getContestEntityByTitleContaining(contestDto.getTitle()) == null) {
+                List<ContestEntity> matchingContests = contestRepository.findAllByTitleContaining(contestDto.getTitle());
+                if (matchingContests.isEmpty()) {
                     contestRepository.save(contestEntity);
                 }
             } else {
@@ -76,21 +76,25 @@ public class ContestService {
         }
     }
     public Map<String, List<ContestDto>> getAllContests() {
-
         List<ContestEntity> contestEntities = contestRepository.findAll();
+
+        if (contestEntities.size() <= 20) {
+            // 결과가 20개 이하인 경우, 그대로 반환
+            return Map.of("data", contestEntities.stream()
+                    .map(this::convertToDto)
+                    .collect(Collectors.toList()));
+        }
 
         contestEntities.sort((a, b) -> Math.toIntExact(b.getTimestamp() - a.getTimestamp()));
 
         List<ContestEntity> contestDtos = contestEntities.stream()
-                .limit(20).toList();
+                .limit(20)
+                .toList();
 
-        ArrayList<ContestEntity> toDeleteList = new ArrayList<>();
-
-        for (ContestEntity entity : contestEntities) {
-            if (!contestDtos.contains(entity)) {
-                toDeleteList.add(entity);
-            }
-        }
+        // 새로운 리스트를 만들어 데이터베이스에서 삭제할 데이터를 선택
+        List<ContestEntity> toDeleteList = contestEntities.stream()
+                .skip(20)
+                .toList();
 
         contestRepository.deleteAll(toDeleteList);
 
@@ -101,6 +105,8 @@ public class ContestService {
 
         return resultMap;
     }
+
+
 
 
     private ContestDto convertToDto(ContestEntity contestEntity) {

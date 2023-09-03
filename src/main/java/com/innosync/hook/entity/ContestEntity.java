@@ -26,5 +26,5 @@ public class ContestEntity {
     private String dateTime;
 
     @Column
-    public long timestamp;
+    private Long timestamp;
 }
