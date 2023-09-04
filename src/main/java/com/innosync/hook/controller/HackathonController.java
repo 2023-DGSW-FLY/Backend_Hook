@@ -1,8 +1,6 @@
 package com.innosync.hook.controller;
 
-import com.innosync.hook.Service.AccessService;
 import com.innosync.hook.Service.HackathonService;
-import com.innosync.hook.dto.AccessDto;
 import com.innosync.hook.dto.HackathonDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

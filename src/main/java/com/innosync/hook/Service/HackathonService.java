@@ -1,13 +1,10 @@
 package com.innosync.hook.Service;
 
 import com.innosync.hook.constant.Status;
-import com.innosync.hook.dto.AccessDto;
 import com.innosync.hook.dto.HackathonDto;
-import com.innosync.hook.entity.AccessEntity;
 import com.innosync.hook.entity.HackathonEntity;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 

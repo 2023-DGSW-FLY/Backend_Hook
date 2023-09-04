@@ -1,8 +1,6 @@
 package com.innosync.hook.Service;
 
-import com.innosync.hook.dto.AccessDto;
 import com.innosync.hook.dto.HackathonDto;
-import com.innosync.hook.entity.AccessEntity;
 import com.innosync.hook.entity.HackathonEntity;
 import com.innosync.hook.repository.HackathonRepository;
 import lombok.RequiredArgsConstructor;
