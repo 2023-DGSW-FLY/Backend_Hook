@@ -4,6 +4,8 @@ import com.innosync.hook.constant.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "hackathon")
 @Builder
@@ -38,8 +40,8 @@ public class HackathonEntity extends BaseEntity{
     public void hackathonChangeContent(String content) {
         this.content = content;
     }
-    public void hackathonChangeStack(String stack){
-        this.stack = stack;
+    public void hackathonChangeStack(List<String> stack){
+        this.stack = String.join(",", stack);;
     }
     public void hackathonChangeUrl(String url) {
         this.url = url;

@@ -20,12 +20,19 @@ public class HackathonController {
     private final HackathonService service;
 
 
+
     // 모든값 가져오기
     @GetMapping("/all")
     public Map<String, List<HackathonDto>> getAllAccess() {
         return service.getAllAccess();
     }
 
+    // tag 가져오기 /access/stack?stack=서버개발자
+    @GetMapping("/stack")
+    public Map<String, Object> getAccessByTag(@RequestParam String job) {
+        // 태그를 사용하여 게시물을 가져옵니다.
+        return service.getAccessByTag(job);
+    }
 
     // C POST
     @PostMapping("")

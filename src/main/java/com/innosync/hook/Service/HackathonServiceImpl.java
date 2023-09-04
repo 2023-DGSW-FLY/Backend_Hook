@@ -8,10 +8,7 @@ import com.innosync.hook.repository.HackathonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -32,6 +29,15 @@ public class HackathonServiceImpl implements HackathonService{
 
         return resultMap;
     }
+
+    @Override
+    public Map<String, Object> getAccessByTag(String tag) {
+        List<HackathonEntity> result = hackathonRepository.findByStackContaining(tag);
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", result);
+        return response;
+    }
+
     @Override
     public Long hackathonRegister(HackathonDto dto) {
         HackathonEntity hackathonEntity = dtoToEntity(dto);
@@ -56,7 +62,7 @@ public class HackathonServiceImpl implements HackathonService{
             HackathonEntity hackathonEntity = result.get();
             hackathonEntity.hackathonChangeTitle(dto.getContent());
             hackathonEntity.hackathonChangeContent(dto.getUrl());
-            hackathonEntity.hackathonChangeStack(dto.getStack());
+            hackathonEntity.hackathonChangeStack(Collections.singletonList(String.join(",", dto.getStack())));
             hackathonEntity.hackathonChangeUrl(dto.getUrl());
             hackathonRepository.save(hackathonEntity);
         }

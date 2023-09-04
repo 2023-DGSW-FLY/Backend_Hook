@@ -6,7 +6,7 @@ import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.time.LocalDateTime;
-
+import java.util.List; // Add this import for List
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +21,7 @@ public class HackathonDto {
 
     private String content;
 
-    private String stack;
+    private List<String> stack; // Change the data type to List<String> for stack
 
     private String url;
 
