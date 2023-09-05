@@ -3,8 +3,6 @@ package com.innosync.hook.Service;
 import com.innosync.hook.dto.ContestDto;
 import com.innosync.hook.entity.ContestEntity;
 import com.innosync.hook.repository.ContestRepository;
-import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -14,6 +12,8 @@ import org.jsoup.select.Elements;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
