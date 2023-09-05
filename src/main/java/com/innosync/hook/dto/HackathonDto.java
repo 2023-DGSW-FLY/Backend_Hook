@@ -1,10 +1,10 @@
 package com.innosync.hook.dto;
 
 import com.innosync.hook.constant.Status;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.*;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
 import java.util.List;
 
