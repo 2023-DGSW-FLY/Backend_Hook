@@ -13,6 +13,9 @@ public interface ExerciseService {
     Map<String, List<ExerciseDto>> getAllAccess();
     // C
     Long exerciseRegister(ExerciseDto dto);
+
+    Map<String, Object> getAccessByTag(String tag);
+
     // R
     Map<String, ExerciseDto> exerciseRead(Long id);
     // U
@@ -47,4 +50,5 @@ public interface ExerciseService {
                 .modDate(entity.getModDate())
                 .build();
     }
+
 }

@@ -1,11 +1,8 @@
 package com.innosync.hook.Service;
 
 import com.innosync.hook.dto.ExerciseDto;
-import com.innosync.hook.dto.HackathonDto;
 import com.innosync.hook.entity.ExerciseEntity;
-import com.innosync.hook.entity.HackathonEntity;
 import com.innosync.hook.repository.ExerciseRepository;
-import com.innosync.hook.repository.HackathonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +16,12 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public Map<String, List<ExerciseDto>> getAllAccess() {
-        List<ExerciseDto> exerciseEntities = exerciseRepository.findAll();
+        List<ExerciseEntity> exerciseEntities = exerciseRepository.findAll();
         List<ExerciseDto> exerciseDtos = exerciseEntities.stream()
                 .map(this::entityToDTO)
                 .collect(Collectors.toList());
 
-        Map<String, List<HackathonDto>> resultMap = new HashMap<>();
+        Map<String, List<ExerciseDto>> resultMap = new HashMap<>();
         resultMap.put("data", exerciseDtos);
 
         return resultMap;
@@ -39,7 +36,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public Long hackathonRegister(HackathonDto dto) {
+    public Long exerciseRegister(ExerciseDto dto) {
         ExerciseEntity exerciseEntity = dtoToEntity(dto);
         exerciseRepository.save(exerciseEntity);
         return exerciseEntity.getId();
@@ -69,7 +66,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public void changeComplete(Long accessId) {
-        Optional<HackathonEntity> accessEntityOptional = exerciseRepository.findById(accessId);
+        Optional<ExerciseEntity> accessEntityOptional = exerciseRepository.findById(accessId);
         if (accessEntityOptional.isPresent()) {
             ExerciseEntity exerciseEntity = accessEntityOptional.get();
             exerciseEntity.setStatusComplete();
