@@ -49,7 +49,6 @@ public class ExerciseEntity extends BaseEntity{
         this.location = location;
     }
 
-
     @PrePersist
     private void prePersist() {
         if (status == null) {
@@ -57,10 +56,10 @@ public class ExerciseEntity extends BaseEntity{
         }
     }
 
-    public void setStatusMatching(Status status) {
+    public void setStatusMatching() {
         this.status = Status.matching;
     }
-    public void setStatusComplete(Status status) {
+    public void setStatusComplete() {
         this.status = Status.complete;
     }
 }

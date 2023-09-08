@@ -22,4 +22,8 @@ public class ExerciseDto {
     @Enumerated(EnumType.STRING)
     private Status status;
     private LocalDateTime regDate, modDate;
+
+    public String getLocatioin() {
+        return null;
+    }
 }

@@ -13,4 +13,6 @@ public interface ExerciseRepository {
     void deleteById(Long id);
 
     void save(ExerciseEntity exerciseEntity);
+
+    List<ExerciseEntity> findAll();
 }
