@@ -14,7 +14,7 @@ public interface ExerciseService {
     // C
     Long exerciseRegister(ExerciseDto dto);
 
-    Map<String, Object> getAccessByTag(String tag);
+    //Map<String, Object> getAccessByTag(String tag);
 
     // R
     Map<String, ExerciseDto> exerciseRead(Long id);
@@ -32,7 +32,7 @@ public interface ExerciseService {
                 .id(dto.getId())
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .location(dto.getLocation())
+                .place(dto.getPlace())
                 .dateTime(dto.getDateTime())
                 .status(dto.getStatus())
                 .build();
@@ -43,7 +43,7 @@ public interface ExerciseService {
                 .id(entity.getId())
                 .title(entity.getTitle())
                 .content(entity.getContent())
-                .location(entity.getLocation())
+                .place(entity.getPlace())
                 .dateTime(entity.getDateTime())
                 .status(Status.valueOf(String.valueOf(entity.getStatus())))
                 .regDate(entity.getRegDate())

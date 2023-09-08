@@ -8,7 +8,4 @@ import java.util.List;
 
 @Repository
 public interface ExerciseRepository extends JpaRepository<ExerciseEntity, Long> {
-    List<ExerciseEntity> findByStackContaining(String stack);
-
-
 }

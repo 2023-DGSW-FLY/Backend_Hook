@@ -58,9 +58,10 @@ public class FoodServiceImpl implements FoodService {
         Optional<FoodEntity> result = foodRepository.findById(dto.getId());
         if (result.isPresent()) {
             FoodEntity foodEntity = result.get();
+            foodEntity.setDateTime(dto.getDateTime());
             foodEntity.setTitle(dto.getContent());
             foodEntity.setContent(dto.getContent());
-            foodEntity.setLocation(dto.getLocatioin());
+            foodEntity.setPlace(dto.getPlace());
             foodRepository.save(foodEntity);
         }
     }

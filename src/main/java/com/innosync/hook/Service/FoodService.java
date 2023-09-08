@@ -32,7 +32,7 @@ public interface FoodService {
                 .id(dto.getId())
                 .title(dto.getTitle())
                 .content(dto.getContent())
-                .location(dto.getLocation())
+                .place(dto.getPlace())
                 .dateTime(dto.getDateTime())
                 .status(dto.getStatus())
                 .build();
@@ -43,7 +43,7 @@ public interface FoodService {
                 .id(entity.getId())
                 .title(entity.getTitle())
                 .content(entity.getContent())
-                .location(entity.getLocation())
+                .place(entity.getPlace())
                 .dateTime(entity.getDateTime())
                 .status(Status.valueOf(String.valueOf(entity.getStatus())))
                 .regDate(entity.getRegDate())

@@ -26,7 +26,7 @@ public class FoodEntity extends BaseEntity{
     private String content;
 
     @Column
-    private String location;
+    private String place;
 
     @Column
     private String dateTime;
@@ -37,10 +37,9 @@ public class FoodEntity extends BaseEntity{
     @Column(name = "stack")
     private String stack;
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -49,8 +48,8 @@ public class FoodEntity extends BaseEntity{
         this.content = content;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     @PrePersist

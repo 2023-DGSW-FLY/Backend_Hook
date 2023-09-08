@@ -25,7 +25,7 @@ public class ExerciseEntity extends BaseEntity{
     private String content;
 
     @Column
-    private String location;
+    private String place;
 
     @Column
     private String dateTime;
@@ -33,12 +33,12 @@ public class ExerciseEntity extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(name = "stack")
-    private String stack;
+    @Column(name = "exercise")
+    private String exercise;
 
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setExercise(String exercise) {
+        this.exercise = exercise;
     }
 
     public void setTitle(String title) {
@@ -49,8 +49,8 @@ public class ExerciseEntity extends BaseEntity{
         this.content = content;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     @PrePersist
