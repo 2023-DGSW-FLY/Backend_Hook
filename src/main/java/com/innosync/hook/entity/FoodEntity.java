@@ -34,6 +34,9 @@ public class FoodEntity extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column(name = "stack")
+    private String stack;
+
     public void setId(Long id) {
         this.id = id;
     }

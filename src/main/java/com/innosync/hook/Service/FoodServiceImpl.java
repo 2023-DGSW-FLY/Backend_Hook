@@ -1,6 +1,7 @@
 package com.innosync.hook.Service;
 
 import com.innosync.hook.dto.FoodDto;
+import com.innosync.hook.entity.ExerciseEntity;
 import com.innosync.hook.entity.FoodEntity;
 import com.innosync.hook.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class FoodServiceImpl implements FoodService {
     public Map<String, List<FoodDto>> getAllAccess() {
         List<FoodEntity> foodEntities = foodRepository.findAll();
         List<FoodDto> foodDtos = foodEntities.stream()
-                .map(entity -> entityToDTO(entity))
+                .map(this::entityToDTO)
                 .collect(Collectors.toList());
 
         Map<String, List<FoodDto>> resultMap = new HashMap<>();

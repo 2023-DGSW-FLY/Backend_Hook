@@ -1,18 +1,14 @@
 package com.innosync.hook.repository;
 
 import com.innosync.hook.entity.ExerciseEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface ExerciseRepository {
-    List<ExerciseEntity> findByStackContaining(String tag);
+@Repository
+public interface ExerciseRepository extends JpaRepository<ExerciseEntity, Long> {
+    List<ExerciseEntity> findByStackContaining(String stack);
 
-    Optional<ExerciseEntity> findById(Long accessId);
 
-    void deleteById(Long id);
-
-    void save(ExerciseEntity exerciseEntity);
-
-    List<ExerciseEntity> findAll();
 }
