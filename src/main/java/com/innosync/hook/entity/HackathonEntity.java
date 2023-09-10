@@ -4,6 +4,7 @@ import com.innosync.hook.constant.Status;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,6 +33,19 @@ public class HackathonEntity extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private Status status;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "user_id") // 사용자 정보를 참조하는 외래 키
+//    private User user;
+
+    @OneToMany(mappedBy = "hackathon", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SupportEntity> supports = new ArrayList<>();
+
+    // 게시물과 지원서 연결
+    public void addSupport(SupportEntity support) {
+        supports.add(support);
+        support.setHackathon(this);
+    }
 
 
     public void hackathonChangeTitle(String title){
