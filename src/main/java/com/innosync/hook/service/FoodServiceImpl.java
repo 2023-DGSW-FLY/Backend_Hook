@@ -1,7 +1,6 @@
-package com.innosync.hook.Service;
+package com.innosync.hook.service;
 
 import com.innosync.hook.dto.FoodDto;
-import com.innosync.hook.entity.ExerciseEntity;
 import com.innosync.hook.entity.FoodEntity;
 import com.innosync.hook.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;

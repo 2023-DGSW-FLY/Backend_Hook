@@ -1,4 +1,4 @@
-package com.innosync.hook.Service;
+package com.innosync.hook.service;
 
 import com.innosync.hook.constant.Status;
 import com.innosync.hook.dto.HackathonDto;
