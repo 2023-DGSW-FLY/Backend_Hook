@@ -1,16 +1,17 @@
 package com.innosync.hook.controller;
 
-import com.innosync.hook.Service.ExerciseService;
+import com.innosync.hook.service.ExerciseService;
 import com.innosync.hook.dto.ExerciseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/Exercise")
+@RequestMapping("/exercise")
 @RestController
 @RequiredArgsConstructor
 public class ExerciseController {
@@ -26,9 +27,10 @@ public class ExerciseController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public void register(
-            @RequestBody ExerciseDto dto
+            @RequestBody ExerciseDto dto, Authentication authentication
     ){
-        service.exerciseRegister(dto);
+        String username = authentication.getName();
+        service.exerciseRegister(dto,username);
     }
     // R GET : /{id},
     @GetMapping("/{id}")

@@ -1,6 +1,6 @@
 package com.innosync.hook.controller;
 
-import com.innosync.hook.Service.FoodService;
+import com.innosync.hook.service.FoodService;
 import com.innosync.hook.dto.FoodDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

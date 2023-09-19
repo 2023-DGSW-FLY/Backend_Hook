@@ -1,11 +1,12 @@
 package com.innosync.hook.controller;
 
-import com.innosync.hook.Service.AccessService;
+import com.innosync.hook.service.AccessService;
 import com.innosync.hook.dto.AccessDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,10 +55,10 @@ public class AccessController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public void register(
-            @RequestBody AccessDto dto
+            @RequestBody AccessDto dto, Authentication authentication
     ){
-        log.info("DTO : {}" ,dto);
-        service.register(dto);
+        String username = authentication.getName();
+        service.register(dto,username);
     }
     // R GET : /{id},
     @GetMapping("/{id}")
