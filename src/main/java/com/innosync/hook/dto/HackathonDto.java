@@ -28,5 +28,7 @@ public class HackathonDto {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    private String writer;
+
     private LocalDateTime regDate, modDate;
 }

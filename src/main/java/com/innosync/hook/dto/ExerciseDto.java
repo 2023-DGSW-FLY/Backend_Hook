@@ -19,6 +19,7 @@ public class ExerciseDto {
     private String content;
     private String place; // 장소
     private String dateTime; // 시간
+    private String username;
     @Enumerated(EnumType.STRING)
     private Status status;
     private String exercise;

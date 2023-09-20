@@ -15,7 +15,7 @@ public interface HackathonService {
     //tag 값 반환
     Map<String, Object> getAccessByTag(String tag);
     // C
-    Long hackathonRegister(HackathonDto dto);
+    Long hackathonRegister(HackathonDto dto, String username);
     // R
     Map<String, HackathonDto> hackathonRead(Long id);
     // U
@@ -46,6 +46,7 @@ public interface HackathonService {
                 .stack(Arrays.asList(entity.getStack().split(","))) // Convert the comma-separated string to a list
                 .url(entity.getUrl())
                 .status(Status.valueOf(String.valueOf(entity.getStatus())))
+                .writer(entity.getWriter())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .build();

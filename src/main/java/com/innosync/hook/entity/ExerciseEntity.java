@@ -28,6 +28,9 @@ public class ExerciseEntity extends BaseEntity{
     private String place;
 
     @Column
+    private String username;
+
+    @Column
     private String dateTime;
 
     @Enumerated(EnumType.STRING)
@@ -43,6 +46,10 @@ public class ExerciseEntity extends BaseEntity{
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setName(String name){
+        this.username = name;
     }
 
     public void setContent(String content) {

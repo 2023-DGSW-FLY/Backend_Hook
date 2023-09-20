@@ -12,7 +12,7 @@ public interface ExerciseService {
     // 모든 값 반환
     Map<String, List<ExerciseDto>> getAllAccess();
     // C
-    Long exerciseRegister(ExerciseDto dto);
+    Long exerciseRegister(ExerciseDto dto, String name);
 
     //Map<String, Object> getAccessByTag(String tag);
 
@@ -33,6 +33,7 @@ public interface ExerciseService {
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .place(dto.getPlace())
+                .exercise(dto.getExercise())
                 .dateTime(dto.getDateTime())
                 .status(dto.getStatus())
                 .build();
@@ -44,7 +45,9 @@ public interface ExerciseService {
                 .title(entity.getTitle())
                 .content(entity.getContent())
                 .place(entity.getPlace())
+                .exercise(entity.getExercise())
                 .dateTime(entity.getDateTime())
+                .username(entity.getUsername())
                 .status(Status.valueOf(String.valueOf(entity.getStatus())))
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())

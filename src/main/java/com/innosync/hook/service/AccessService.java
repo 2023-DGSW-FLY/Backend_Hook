@@ -19,7 +19,7 @@ public interface AccessService {
     void changeMatching(Long accessId);
 
     // C
-    Long register(AccessDto dto);
+    Long register(AccessDto dto, String username);
     // R
     Map<String, AccessDto> read(Long id);
     // U

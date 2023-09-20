@@ -37,8 +37,9 @@ public class HackathonServiceImpl implements HackathonService{
     }
 
     @Override
-    public Long hackathonRegister(HackathonDto dto) {
+    public Long hackathonRegister(HackathonDto dto, String username) {
         HackathonEntity hackathonEntity = dtoToEntity(dto);
+        hackathonEntity.setWriter(username);
         hackathonRepository.save(hackathonEntity);
         return hackathonEntity.getId();
     }

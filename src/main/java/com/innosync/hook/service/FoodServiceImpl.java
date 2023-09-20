@@ -28,16 +28,9 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Map<String, Object> getAccessByTag(String tag) {
-        List<FoodEntity> result = foodRepository.findByStackContaining(tag);
-        Map<String, Object> response = new HashMap<>();
-        response.put("data", result);
-        return response;
-    }
-
-    @Override
-    public Long foodRegister(FoodDto dto) {
+    public Long foodRegister(FoodDto dto , String username) {
         FoodEntity foodEntity = dtoToEntity(dto);
+        foodEntity.setWriter(username);
         foodRepository.save(foodEntity);
         return foodEntity.getId();
     }

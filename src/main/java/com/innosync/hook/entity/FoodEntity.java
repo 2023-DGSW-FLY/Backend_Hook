@@ -34,8 +34,8 @@ public class FoodEntity extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(name = "stack")
-    private String stack;
+    @Column
+    private String writer;
 
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
@@ -59,6 +59,9 @@ public class FoodEntity extends BaseEntity{
         }
     }
 
+    public void setWriter(String username){
+        this.writer = username;
+    }
     public void setStatusMatching() {
         this.status = Status.matching;
     }

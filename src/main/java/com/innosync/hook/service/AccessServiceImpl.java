@@ -61,8 +61,9 @@ public class AccessServiceImpl implements AccessService {
 
 
     @Override
-    public Long register(AccessDto dto) {
+    public Long register(AccessDto dto ,String username) {
         AccessEntity accessEntity = dtoToEntity(dto);
+        accessEntity.setName(username);
         accessRepository.save(accessEntity);
         return accessEntity.getId();
     }
@@ -83,6 +84,7 @@ public class AccessServiceImpl implements AccessService {
         if (result.isPresent()) {
             AccessEntity accessEntity = result.get();
             accessEntity.changeContent(dto.getContent());
+            accessEntity.changeStack(dto.getStack());
             accessEntity.changeUrl(dto.getUrl());
             accessRepository.save(accessEntity);
         }

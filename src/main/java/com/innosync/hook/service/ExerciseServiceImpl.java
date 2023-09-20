@@ -36,8 +36,9 @@ public class ExerciseServiceImpl implements ExerciseService {
 //    }
 
     @Override
-    public Long exerciseRegister(ExerciseDto dto) {
+    public Long exerciseRegister(ExerciseDto dto, String name) {
         ExerciseEntity exerciseEntity = dtoToEntity(dto);
+        exerciseEntity.setName(name);
         exerciseRepository.save(exerciseEntity);
         return exerciseEntity.getId();
     }
