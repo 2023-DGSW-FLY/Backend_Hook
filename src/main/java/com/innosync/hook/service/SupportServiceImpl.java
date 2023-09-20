@@ -21,11 +21,12 @@ public class SupportServiceImpl implements SupportService {
     private final SupportRepository supportRepository;
 
     @Override
-    public Long applyToHackathon(Long hackathonId, SupportDto supportDto) {
+    public Long applyToHackathon(Long hackathonId, SupportDto supportDto, Long userId) {
         Optional<HackathonEntity> hackathonEntityOptional = hackathonRepository.findById(hackathonId);
         if (hackathonEntityOptional.isPresent()) {
             HackathonEntity hackathon = hackathonEntityOptional.get();
             SupportEntity supportEntity = dtoToEntity(supportDto);
+            supportEntity.setUserId(userId);
             hackathon.addSupport(supportEntity);
             supportEntity = supportRepository.save(supportEntity);
             return supportEntity.getId();
@@ -65,6 +66,7 @@ public class SupportServiceImpl implements SupportService {
         supportDto.setContact(supportEntity.getContact());
         supportDto.setIntroduction(supportEntity.getIntroduction());
         supportDto.setPortfolioLink(supportEntity.getPortfolioLink());
+        supportDto.setUserId(supportEntity.getUserId());
         return supportDto;
     }
 
