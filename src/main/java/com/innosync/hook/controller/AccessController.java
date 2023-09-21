@@ -1,5 +1,6 @@
 package com.innosync.hook.controller;
 
+import com.innosync.hook.dto.HackathonDto;
 import com.innosync.hook.service.AccessService;
 import com.innosync.hook.dto.AccessDto;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequestMapping("/access")
 @RestController
@@ -26,6 +28,26 @@ public class AccessController {
         return service.getAllAccess();
     }
 
+
+    @GetMapping("/get")
+    public Map<String, List<AccessDto>> getHackathons(@RequestParam(name = "cnt", required = false, defaultValue = "-1") int count) {
+        if(count == -1) {
+            return service.getAllAccess();
+        }
+        else {
+            // 서비스로부터 모든 데이터 가져오기
+            Map<String, List<AccessDto>> allAccess = service.getRecentAccess(count);
+
+            // 원하는 개수만큼 결과 필터링
+            Map<String, List<AccessDto>> filteredAccess = allAccess.entrySet().stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().stream()
+                            .limit(count)
+                            .collect(Collectors.toList())));
+
+
+            return filteredAccess;
+        }
+    }
     // tag 가져오기 /access/stack?stack=서버개발자
     @GetMapping("/stack")
     public Map<String, Object> getAccessByTag(@RequestParam String job) {

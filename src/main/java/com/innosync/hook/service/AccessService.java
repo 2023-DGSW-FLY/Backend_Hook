@@ -2,6 +2,7 @@ package com.innosync.hook.service;
 
 import com.innosync.hook.constant.Status;
 import com.innosync.hook.dto.AccessDto;
+import com.innosync.hook.dto.HackathonDto;
 import com.innosync.hook.entity.AccessEntity;
 
 import java.util.List;
@@ -11,6 +12,8 @@ public interface AccessService {
 
     //get all
     Map<String, List<AccessDto>> getAllAccess();
+    // parameter 값으로
+    Map<String, List<AccessDto>> getRecentAccess(int count);
 
     //tag 값 반환
     Map<String, Object> getAccessByTag(String tag);

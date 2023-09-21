@@ -35,6 +35,19 @@ public class HackathonServiceImpl implements HackathonService{
         response.put("data", result);
         return response;
     }
+    @Override
+    public Map<String, List<HackathonDto>> getRecentHackathons(int count) {
+        List<HackathonEntity> topNHackathons = hackathonRepository.findTopNByOrderByRegDateDesc(count);
+        List<HackathonDto> recentHackathonDtos = topNHackathons.stream()
+                .map(this::entityToDTO)
+                .collect(Collectors.toList());
+
+        Map<String, List<HackathonDto>> resultMap = new HashMap<>();
+        resultMap.put("data", recentHackathonDtos);
+
+        return resultMap;
+    }
+
 
     @Override
     public Long hackathonRegister(HackathonDto dto, String username) {

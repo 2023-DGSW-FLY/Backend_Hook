@@ -1,6 +1,7 @@
 package com.innosync.hook.service;
 
 import com.innosync.hook.dto.AccessDto;
+import com.innosync.hook.dto.HackathonDto;
 import com.innosync.hook.entity.AccessEntity;
 import com.innosync.hook.repository.AccessRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,18 @@ public class AccessServiceImpl implements AccessService {
         return resultMap;
     }
 
+    @Override
+    public Map<String, List<AccessDto>> getRecentAccess(int count) {
+        List<AccessEntity> topNAccasses = accessRepository.findTopNByOrderByRegDateDesc(count);
+        List<AccessDto> recentAccessDtos = topNAccasses.stream()
+                .map(this::entityToDTO)
+                .collect(Collectors.toList());
+
+        Map<String, List<AccessDto>> resultMap = new HashMap<>();
+        resultMap.put("data", recentAccessDtos);
+
+        return resultMap;
+    }
     @Override
     public Map<String, Object> getAccessByTag(String tag) {
         List<AccessEntity> result = accessRepository.findByStackContaining(tag);

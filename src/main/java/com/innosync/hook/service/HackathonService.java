@@ -14,6 +14,8 @@ public interface HackathonService {
     Map<String, List<HackathonDto>> getAllAccess();
     //tag 값 반환
     Map<String, Object> getAccessByTag(String tag);
+    //갯수로 가져오기
+    Map<String, List<HackathonDto>> getRecentHackathons(int count);
     // C
     Long hackathonRegister(HackathonDto dto, String username);
     // R

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequestMapping("/hackathon")
 @RestController
@@ -20,11 +21,11 @@ public class HackathonController {
 
 
 
-    // 모든값 가져오기
-    @GetMapping("/all")
-    public Map<String, List<HackathonDto>> getAllAccess() {
-        return service.getAllAccess();
-    }
+//    모든값 가져오기
+//    @GetMapping("/all")
+//    public Map<String, List<HackathonDto>> getAllAccess() {
+//        return service.getAllAccess();
+//    }
 
     // tag 가져오기 /access/stack?stack=서버개발자
     @GetMapping("/stack")
@@ -32,6 +33,27 @@ public class HackathonController {
         // 태그를 사용하여 게시물을 가져옵니다.
         return service.getAccessByTag(job);
     }
+
+    @GetMapping("/get")
+    public Map<String, List<HackathonDto>> getHackathons(@RequestParam(name = "cnt", required = false, defaultValue = "-1") int count) {
+        if(count == -1) {
+            return service.getAllAccess();
+        }
+        else {
+            // 서비스로부터 모든 데이터 가져오기
+            Map<String, List<HackathonDto>> allHackathons = service.getRecentHackathons(count);
+
+            // 원하는 개수만큼 결과 필터링
+            Map<String, List<HackathonDto>> filteredHackathons = allHackathons.entrySet().stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().stream()
+                            .limit(count)
+                            .collect(Collectors.toList())));
+
+
+            return filteredHackathons;
+        }
+    }
+
 
     // C POST
     @PostMapping("")
