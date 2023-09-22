@@ -1,5 +1,7 @@
 package com.innosync.hook.req;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,23 +22,30 @@ public class User {
     private Long id;
 
     @Column(name = "user_account")
+    @JsonProperty("userAccount")
     private String userAccount;
 
+    @JsonIgnore
     private String password;
 
     @Column
+    @JsonProperty("user_name")
     private String user_name;
 
     @Column
+    @JsonProperty("user_info")
     private String user_info;
 
     @Column
+    @JsonProperty("email")
     private String email;
 
     @Column
+    @JsonProperty("github_url")
     private String github_url;
 
     @Column
+    @JsonProperty("portfolio_url")
     private String portfolio_url;
 
 
