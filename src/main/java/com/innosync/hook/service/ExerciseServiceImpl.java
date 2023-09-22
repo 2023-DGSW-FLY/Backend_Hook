@@ -27,18 +27,19 @@ public class ExerciseServiceImpl implements ExerciseService {
         return resultMap;
     }
 
-//    @Override
-//    public Map<String, Object> getAccessByTag(String tag) {
-//        List<ExerciseEntity> result = exerciseRepository.findByStackContaining(tag);
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("data", result);
-//        return response;
-//    }
+    @Override
+    public Map<String, Object> getAccessByTag(String tag) {
+        List<ExerciseEntity> result = exerciseRepository.findByExerciseContaining(tag);
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", result);
+        return response;
+    }
 
     @Override
-    public Long exerciseRegister(ExerciseDto dto, String name) {
+    public Long exerciseRegister(ExerciseDto dto, String name, Long userId) {
         ExerciseEntity exerciseEntity = dtoToEntity(dto);
-        exerciseEntity.setName(name);
+        exerciseEntity.setUsername(name);
+        exerciseEntity.setUserId(userId);
         exerciseRepository.save(exerciseEntity);
         return exerciseEntity.getId();
     }
@@ -60,6 +61,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             ExerciseEntity exerciseEntity = result.get();
             exerciseEntity.setTitle(dto.getContent());
             exerciseEntity.setContent(dto.getContent());
+            exerciseEntity.setDateTime(dto.getDateTime());
             exerciseEntity.setExercise(dto.getExercise());
             exerciseEntity.setPlace(dto.getPlace());
             exerciseRepository.save(exerciseEntity);
