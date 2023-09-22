@@ -28,9 +28,10 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Long foodRegister(FoodDto dto , String username) {
+    public Long foodRegister(FoodDto dto , String username, Long userId) {
         FoodEntity foodEntity = dtoToEntity(dto);
         foodEntity.setWriter(username);
+        foodEntity.setUserId(userId);
         foodRepository.save(foodEntity);
         return foodEntity.getId();
     }

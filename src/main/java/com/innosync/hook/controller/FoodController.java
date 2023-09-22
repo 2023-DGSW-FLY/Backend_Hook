@@ -1,5 +1,7 @@
 package com.innosync.hook.controller;
 
+import com.innosync.hook.repository.UserRepository;
+import com.innosync.hook.req.User;
 import com.innosync.hook.service.FoodService;
 import com.innosync.hook.dto.FoodDto;
 import lombok.RequiredArgsConstructor;
@@ -10,12 +12,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequestMapping("/food")
 @RestController
 @RequiredArgsConstructor
 public class FoodController {
     private final FoodService service;
+    private final UserRepository repository;
 
     // 모든값 가져오기
     @GetMapping("/all")
@@ -31,7 +35,10 @@ public class FoodController {
 
     ){
         String username = authentication.getName();
-        service.foodRegister(dto, username);
+        Optional<User> userOptional = repository.findByUserAccount(username);
+        User user = userOptional.get(); // User정보 받아서
+        Long userId = user.getId(); //정보중 user_id 만 추출하여 userId에 저장
+        service.foodRegister(dto,username,userId);
     }
     // R GET : /{id},
     @GetMapping("/{id}")

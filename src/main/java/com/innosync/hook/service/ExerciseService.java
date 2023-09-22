@@ -12,9 +12,9 @@ public interface ExerciseService {
     // 모든 값 반환
     Map<String, List<ExerciseDto>> getAllAccess();
     // C
-    Long exerciseRegister(ExerciseDto dto, String name);
+    Long exerciseRegister(ExerciseDto dto, String name, Long userId);
 
-    //Map<String, Object> getAccessByTag(String tag);
+    Map<String, Object> getAccessByTag(String tag);
 
     // R
     Map<String, ExerciseDto> exerciseRead(Long id);
@@ -48,6 +48,7 @@ public interface ExerciseService {
                 .exercise(entity.getExercise())
                 .dateTime(entity.getDateTime())
                 .username(entity.getUsername())
+                .userId(entity.getUserId())
                 .status(Status.valueOf(String.valueOf(entity.getStatus())))
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())

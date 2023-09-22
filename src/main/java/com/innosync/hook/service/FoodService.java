@@ -12,7 +12,7 @@ public interface FoodService {
     // 모든 값 반환
     Map<String, List<FoodDto>> getAllAccess();
     // C
-    Long foodRegister(FoodDto dto, String username);
+    Long foodRegister(FoodDto dto, String username, Long userId);
 
     // R
     Map<String, FoodDto> foodRead(Long id);
@@ -46,6 +46,7 @@ public interface FoodService {
                 .dateTime(entity.getDateTime())
                 .status(Status.valueOf(String.valueOf(entity.getStatus())))
                 .writer(entity.getWriter())
+                .userId(entity.getUserId())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .build();
