@@ -1,19 +1,22 @@
 package com.innosync.hook.controller;
 
+import com.innosync.hook.repository.UserRepository;
 import com.innosync.hook.service.UserService;
 import com.innosync.hook.req.*;
 import com.innosync.hook.token.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -25,6 +28,7 @@ public class UserController {
     private String secretKey;
     private final UserService userService;
     private final BCryptPasswordEncoder encoder;
+    private final UserRepository repository;
 
     @PostMapping("/join")
     public Response<UserJoinResponse> join(@RequestBody UserJoinRequest userJoinRequest) {
@@ -36,20 +40,31 @@ public class UserController {
         return Response.success(userJoinResponse);
     }
 
+
+
     @PostMapping("/login")
-    public Response<UserLoginResponse> login(@RequestBody UserLoginRequest userLoginRequest) {
-        Map<String, String> token = userService.login(userLoginRequest.getUserAccount(), userLoginRequest.getPassword());
-        return Response.success(new UserLoginResponse(token.toString()));
+    public Map<String, Object> login(@RequestBody UserLoginRequest userLoginRequest) {
+        Map<String, String> tokenMap = userService.login(userLoginRequest.getUserAccount(), userLoginRequest.getPassword());
+
+        Map<String, Object> response = new HashMap<>();
+        Map<String, String> data = new HashMap<>();
+        data.put("accessToken", tokenMap.get("accessToken"));
+        data.put("refreshToken", tokenMap.get("refreshToken"));
+
+        response.put("data", data);
+
+        return response;
     }
 
-    @PostMapping("/hello")
-    public String hello(Authentication authentication) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            // 현재 인증된 사용자 정보 가져오기
-            String username = authentication.getName();
-            return "안녕, " + username;
-        }
-        return "실패";
+
+
+
+    @GetMapping("/user")
+    public User profile(Authentication authentication) {
+        String username = authentication.getName();
+        Optional<User> userOptional = repository.findByUserAccount(username);
+        User user = userOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")); //람다식으로 예외처리
+        return user;
     }
 
 

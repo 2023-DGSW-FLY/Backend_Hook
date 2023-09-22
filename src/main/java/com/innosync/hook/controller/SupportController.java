@@ -28,8 +28,8 @@ public class SupportController {
     ) {
         String username = authentication.getName();
         Optional<User> userOptional = repository.findByUserAccount(username);
-        User user = userOptional.get();
-        Long userId = user.getId();
+        User user = userOptional.get(); // User정보 받아서
+        Long userId = user.getId(); //정보중 user_id 만 추출하여 userId에 저장
         Long supportId = service.applyToHackathon(hackathonId, supportDto, userId);
         return ResponseEntity.ok(supportId);
     }
