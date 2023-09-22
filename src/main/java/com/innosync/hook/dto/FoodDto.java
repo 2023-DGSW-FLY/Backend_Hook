@@ -21,6 +21,8 @@ public class FoodDto {
     private String dateTime; // 시간
     @Enumerated(EnumType.STRING)
     private Status status;
+    private String writer;
+    private Long userId; // 작성자 FK값
     private LocalDateTime regDate, modDate;
 
 }

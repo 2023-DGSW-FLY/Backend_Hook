@@ -23,5 +23,6 @@ public class SupportEntity extends BaseEntity {
     private String contact;
     private String introduction;
     private String portfolioLink;
+    private Long userId;
 
 }

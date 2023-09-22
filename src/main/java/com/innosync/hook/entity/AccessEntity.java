@@ -32,8 +32,15 @@ public class AccessEntity extends BaseEntity{
         this.content = content;
     }
 
+    public void changeStack(String stack){
+        this.stack = stack;
+    }
     public void changeUrl(String url) {
         this.url = url;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     @PrePersist

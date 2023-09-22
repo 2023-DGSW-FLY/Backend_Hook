@@ -33,6 +33,9 @@ public class HackathonEntity extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Column
+    private String writer;
 //
 //    @ManyToOne
 //    @JoinColumn(name = "user_id") // 사용자 정보를 참조하는 외래 키
@@ -48,6 +51,9 @@ public class HackathonEntity extends BaseEntity{
     }
 
 
+    public void setWriter(String username){
+        this.writer = username;
+    }
     public void hackathonChangeTitle(String title){
         this.title = title;
     }

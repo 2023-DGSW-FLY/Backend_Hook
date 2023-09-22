@@ -12,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @ToString
 public class FoodEntity extends BaseEntity{
     @Id
@@ -34,23 +35,25 @@ public class FoodEntity extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(name = "stack")
-    private String stack;
+    @Column
+    private String writer;
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    @Column
+    private Long userId; // 작성자 FK값
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
+//    public void setDateTime(String dateTime) {
+//        this.dateTime = dateTime;
+//    }
+//    public void setTitle(String title) {
+//        this.title = title;
+//    }
+//
+//    public void setContent(String content) {
+//        this.content = content;
+//    }
+//    public void setPlace(String place) {
+//        this.place = place;
+//    }
 
     @PrePersist
     private void prePersist() {
@@ -59,6 +62,9 @@ public class FoodEntity extends BaseEntity{
         }
     }
 
+//    public void setWriter(String username){
+//        this.writer = username;
+//    }
     public void setStatusMatching() {
         this.status = Status.matching;
     }

@@ -6,14 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.innosync.hook.dto.ContestDto;
-import com.innosync.hook.Service.ContestService;
+import com.innosync.hook.service.ContestService;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
 public class ContestController {
 
     private final ContestService contestService;

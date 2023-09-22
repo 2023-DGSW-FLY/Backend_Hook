@@ -1,0 +1,87 @@
+package com.innosync.hook.controller;
+
+import com.innosync.hook.repository.UserRepository;
+import com.innosync.hook.service.UserService;
+import com.innosync.hook.req.*;
+import com.innosync.hook.token.JwtTokenUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
+@Slf4j
+public class UserController {
+
+    @Value("${jwt.token.secret}")
+    private String secretKey;
+    private final UserService userService;
+    private final BCryptPasswordEncoder encoder;
+    private final UserRepository repository;
+
+    @PostMapping("/join")
+    public Response<UserJoinResponse> join(@RequestBody UserJoinRequest userJoinRequest) {
+        String encodedPassword = encoder.encode(userJoinRequest.getPassword());
+        User user = new User(userJoinRequest.getUserAccount(), encodedPassword, userJoinRequest.getUserName(), userJoinRequest.getEmail(), userJoinRequest.getUser_info(), userJoinRequest.getGithub_url(),userJoinRequest.getGithub_url());
+        userService.join(user);
+        UserJoinResponse userJoinResponse = new UserJoinResponse(user.getUserAccount());
+
+        return Response.success(userJoinResponse);
+    }
+
+
+
+    @PostMapping("/login")
+    public Map<String, Object> login(@RequestBody UserLoginRequest userLoginRequest) {
+        Map<String, String> tokenMap = userService.login(userLoginRequest.getUserAccount(), userLoginRequest.getPassword());
+
+        Map<String, Object> response = new HashMap<>();
+        Map<String, String> data = new HashMap<>();
+        data.put("accessToken", tokenMap.get("accessToken"));
+        data.put("refreshToken", tokenMap.get("refreshToken"));
+
+        response.put("data", data);
+
+        return response;
+    }
+
+
+
+
+    @GetMapping("/user")
+    public User profile(Authentication authentication) {
+        String username = authentication.getName();
+        Optional<User> userOptional = repository.findByUserAccount(username);
+        User user = userOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")); //람다식으로 예외처리
+        return user;
+    }
+
+
+
+    @PostMapping("/refresh")
+    public Response<RefreshResponse> refreshAccessToken(@RequestBody RefreshRequest refreshRequest) {
+        String refreshToken = refreshRequest.getRefreshToken();
+
+        // 리프레쉬 토큰 검증
+        if (!JwtTokenUtil.isRefreshTokenValid(refreshToken, secretKey)) {
+            return Response.error("Invalid refresh token");
+        }
+
+        // 리프레쉬 토큰으로부터 어세스 토큰 생성
+        String newAccessToken = JwtTokenUtil.generateAccessTokenFromRefreshToken(refreshToken, secretKey);
+
+        RefreshResponse refreshResponse = new RefreshResponse(newAccessToken);
+        return Response.success(refreshResponse);
+    }
+}

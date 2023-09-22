@@ -12,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @ToString
 public class ExerciseEntity extends BaseEntity{
     @Id
@@ -28,6 +29,12 @@ public class ExerciseEntity extends BaseEntity{
     private String place;
 
     @Column
+    private String username;
+
+    @Column
+    private Long userId;
+
+    @Column
     private String dateTime;
 
     @Enumerated(EnumType.STRING)
@@ -37,21 +44,28 @@ public class ExerciseEntity extends BaseEntity{
     private String exercise;
 
 
-    public void setExercise(String exercise) {
-        this.exercise = exercise;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
+//    public void setExercise(String exercise) {
+//        this.exercise = exercise;
+//    }
+//
+//    public void setTitle(String title) {
+//        this.title = title;
+//    }
+//
+//    public void setName(String name){
+//        this.username = name;
+//    }
+//
+//    public void setContent(String content) {
+//        this.content = content;
+//    }
+//
+//    public void setDateTime(String dateTime){
+//        this.dateTime = dateTime;
+//    }
+//    public void setPlace(String place) {
+//        this.place = place;
+//    }
 
     @PrePersist
     private void prePersist() {
