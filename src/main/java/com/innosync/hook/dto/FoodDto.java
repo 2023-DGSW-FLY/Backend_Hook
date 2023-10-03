@@ -18,7 +18,7 @@ public class FoodDto {
     private String title;
     private String content;
     private String place; // 장소
-    private String dateTime; // 시간
+    private String foodName; // 음식명
     @Enumerated(EnumType.STRING)
     private Status status;
     private String writer;

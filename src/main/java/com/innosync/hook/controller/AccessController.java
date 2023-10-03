@@ -22,11 +22,11 @@ public class AccessController {
 
     private final AccessService service;
 
-    // GET: /access/all
-    @GetMapping("/all")
-    public Map<String, List<AccessDto>> getAllAccess() {
-        return service.getAllAccess();
-    }
+//    // GET: /access/all
+//    @GetMapping("/all")
+//    public Map<String, List<AccessDto>> getAllAccess() {
+//        return service.getAllAccess();
+//    }
 
 
     @GetMapping("/get")

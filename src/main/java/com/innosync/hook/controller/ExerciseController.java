@@ -1,5 +1,6 @@
 package com.innosync.hook.controller;
 
+import com.innosync.hook.dto.AccessDto;
 import com.innosync.hook.repository.ExerciseRepository;
 import com.innosync.hook.repository.UserRepository;
 import com.innosync.hook.req.User;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequestMapping("/exercise")
 @RestController
@@ -28,6 +30,25 @@ public class ExerciseController {
         return service.getAllAccess();
     }
 
+    @GetMapping("/get")
+    public Map<String, List<ExerciseDto>> getHackathons(@RequestParam(name = "cnt", required = false, defaultValue = "-1") int count) {
+        if(count == -1) {
+            return service.getAllAccess();
+        }
+        else {
+            // 서비스로부터 모든 데이터 가져오기
+            Map<String, List<ExerciseDto>> allAccess = service.getRecentExercise(count);
+
+            // 원하는 개수만큼 결과 필터링
+            Map<String, List<ExerciseDto>> filteredExercise = allAccess.entrySet().stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().stream()
+                            .limit(count)
+                            .collect(Collectors.toList())));
+
+
+            return filteredExercise;
+        }
+    }
     // tag 가져오기 /access/ex?ex=배드민턴
     @GetMapping("/ex")
     public Map<String, Object> getAccessByTag(@RequestParam String ex) {

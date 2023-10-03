@@ -30,7 +30,7 @@ public class FoodEntity extends BaseEntity{
     private String place;
 
     @Column
-    private String dateTime;
+    private String foodName;
 
     @Enumerated(EnumType.STRING)
     private Status status;

@@ -1,6 +1,8 @@
 package com.innosync.hook.service;
 
+import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.dto.FoodDto;
+import com.innosync.hook.entity.ExerciseEntity;
 import com.innosync.hook.entity.FoodEntity;
 import com.innosync.hook.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,18 @@ public class FoodServiceImpl implements FoodService {
 
         Map<String, List<FoodDto>> resultMap = new HashMap<>();
         resultMap.put("data", foodDtos);
+
+        return resultMap;
+    }
+    @Override
+    public Map<String, List<FoodDto>> getRecentFood(int count) {
+        List<FoodEntity> topNFood = foodRepository.findTopNByOrderByRegDateDesc(count);
+        List<FoodDto> recentFoodDtos = topNFood.stream()
+                .map(this::entityToDTO)
+                .collect(Collectors.toList());
+
+        Map<String, List<FoodDto>> resultMap = new HashMap<>();
+        resultMap.put("data", recentFoodDtos);
 
         return resultMap;
     }
@@ -51,7 +65,7 @@ public class FoodServiceImpl implements FoodService {
         Optional<FoodEntity> result = foodRepository.findById(dto.getId());
         if (result.isPresent()) {
             FoodEntity foodEntity = result.get();
-            foodEntity.setDateTime(dto.getDateTime());
+            foodEntity.setFoodName(dto.getFoodName());
             foodEntity.setTitle(dto.getContent());
             foodEntity.setContent(dto.getContent());
             foodEntity.setPlace(dto.getPlace());
