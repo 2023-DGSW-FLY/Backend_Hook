@@ -8,4 +8,6 @@ public class UserLoginRequest {
 
     private String userAccount;
     private String password;
+    private String fireBaseToken;
+
 }

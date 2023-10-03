@@ -53,6 +53,8 @@ public class User {
     @Column(name = "user_Role")
     private UserRole userRole;
 
+    @Column
+    private String firebaseToken;
     public User(String userAccount, String password, String user_name, String email, String user_info, String github_url, String portfolio_url) {
         this.userAccount = userAccount;
         this.password = password;
@@ -64,4 +66,8 @@ public class User {
         this.userRole = UserRole.USER;
     }
 
+    public void addFirebaseToken(String firebaseToken){
+        this.firebaseToken=firebaseToken;
+        //System.out.println("토큰 들어옴 | 들어온 파베토큰 | 바뀐 파베토큰 " + firebaseToken + " " + this.firebaseToken);
+    }
 }

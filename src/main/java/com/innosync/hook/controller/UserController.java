@@ -44,7 +44,7 @@ public class UserController {
 
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody UserLoginRequest userLoginRequest) {
-        Map<String, String> tokenMap = userService.login(userLoginRequest.getUserAccount(), userLoginRequest.getPassword());
+        Map<String, String> tokenMap = userService.login(userLoginRequest.getUserAccount(), userLoginRequest.getPassword(), userLoginRequest.getFireBaseToken());
 
         Map<String, Object> response = new HashMap<>();
         Map<String, String> data = new HashMap<>();
