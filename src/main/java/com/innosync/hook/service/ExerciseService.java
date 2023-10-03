@@ -11,6 +11,10 @@ public interface ExerciseService {
 
     // 모든 값 반환
     Map<String, List<ExerciseDto>> getAllAccess();
+
+    // parameter 값으로 반환
+    Map<String, List<ExerciseDto>> getRecentExercise(int count);
+
     // C
     Long exerciseRegister(ExerciseDto dto, String name, Long userId);
 

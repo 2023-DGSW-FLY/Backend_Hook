@@ -1,5 +1,6 @@
 package com.innosync.hook.controller;
 
+import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.repository.UserRepository;
 import com.innosync.hook.req.User;
 import com.innosync.hook.service.FoodService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequestMapping("/food")
 @RestController
@@ -21,10 +23,30 @@ public class FoodController {
     private final FoodService service;
     private final UserRepository repository;
 
-    // 모든값 가져오기
-    @GetMapping("/all")
-    public Map<String, List<FoodDto>> getAllAccess() {
-        return service.getAllAccess();
+//    // 모든값 가져오기
+//    @GetMapping("/all")
+//    public Map<String, List<FoodDto>> getAllAccess() {
+//        return service.getAllAccess();
+//    }
+    // 게시글 파라미터로 받아오기 if get 이후 cnt 값이 없다면 모든값 리턴 /get?cnt=1 or /get
+    @GetMapping("/get")
+    public Map<String, List<FoodDto>> getHackathons(@RequestParam(name = "cnt", required = false, defaultValue = "-1") int count) {
+        if(count == -1) {
+            return service.getAllAccess();
+        }
+        else {
+            // 서비스로부터 모든 데이터 가져오기
+            Map<String, List<FoodDto>> allAccess = service.getRecentFood(count);
+
+            // 원하는 개수만큼 결과 필터링
+            Map<String, List<FoodDto>> filteredFood = allAccess.entrySet().stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().stream()
+                            .limit(count)
+                            .collect(Collectors.toList())));
+
+
+            return filteredFood;
+        }
     }
 
     // C POST

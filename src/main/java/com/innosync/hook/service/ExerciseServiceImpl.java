@@ -28,6 +28,19 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    public Map<String, List<ExerciseDto>> getRecentExercise(int count) {
+        List<ExerciseEntity> topNExercise = exerciseRepository.findTopNByOrderByRegDateDesc(count);
+        List<ExerciseDto> recentAccessDtos = topNExercise.stream()
+                .map(this::entityToDTO)
+                .collect(Collectors.toList());
+
+        Map<String, List<ExerciseDto>> resultMap = new HashMap<>();
+        resultMap.put("data", recentAccessDtos);
+
+        return resultMap;
+    }
+
+    @Override
     public Map<String, Object> getAccessByTag(String tag) {
         List<ExerciseEntity> result = exerciseRepository.findByExerciseContaining(tag);
         Map<String, Object> response = new HashMap<>();

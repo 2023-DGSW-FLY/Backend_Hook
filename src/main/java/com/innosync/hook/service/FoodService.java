@@ -1,6 +1,7 @@
 package com.innosync.hook.service;
 
 import com.innosync.hook.constant.Status;
+import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.dto.FoodDto;
 import com.innosync.hook.entity.FoodEntity;
 
@@ -11,6 +12,9 @@ public interface FoodService {
 
     // 모든 값 반환
     Map<String, List<FoodDto>> getAllAccess();
+
+    // parameter 값으로 반환
+    Map<String, List<FoodDto>> getRecentFood(int count);
     // C
     Long foodRegister(FoodDto dto, String username, Long userId);
 
@@ -31,7 +35,7 @@ public interface FoodService {
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .place(dto.getPlace())
-                .dateTime(dto.getDateTime())
+                .foodName(dto.getFoodName())
                 .status(dto.getStatus())
                 .writer(dto.getWriter())
                 .build();
@@ -43,7 +47,7 @@ public interface FoodService {
                 .title(entity.getTitle())
                 .content(entity.getContent())
                 .place(entity.getPlace())
-                .dateTime(entity.getDateTime())
+                .foodName(entity.getFoodName())
                 .status(Status.valueOf(String.valueOf(entity.getStatus())))
                 .writer(entity.getWriter())
                 .userId(entity.getUserId())
