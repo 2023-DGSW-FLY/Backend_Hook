@@ -65,7 +65,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private Claims extractClaims(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token).getBody();
     }
 
     private boolean isExpired(String token) {
