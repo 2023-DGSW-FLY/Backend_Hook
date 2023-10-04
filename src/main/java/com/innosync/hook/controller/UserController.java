@@ -60,11 +60,13 @@ public class UserController {
 
 
     @GetMapping("/user")
-    public User profile(Authentication authentication) {
+    public Map<String, Object> profile(Authentication authentication) {
         String username = authentication.getName();
         Optional<User> userOptional = repository.findByUserAccount(username);
         User user = userOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")); //람다식으로 예외처리
-        return user;
+        Map<String, Object> response = new HashMap<>();
+        response.put("data" , user);
+        return response;
     }
 
 
