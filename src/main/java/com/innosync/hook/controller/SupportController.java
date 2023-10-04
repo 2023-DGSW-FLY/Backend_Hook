@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -35,8 +36,8 @@ public class SupportController {
     }
 
     @GetMapping("/{hackathonId}/supports")
-    public ResponseEntity<List<SupportDto>> getSupportsForHackathon(@PathVariable Long hackathonId) {
-        List<SupportDto> supports = service.getSupportsForHackathon(hackathonId);
+    public ResponseEntity<Map<String, List<SupportDto>>> getSupportsForHackathon(@PathVariable Long hackathonId) {
+        Map<String, List<SupportDto>> supports = service.getSupportsForHackathon(hackathonId);
         return ResponseEntity.ok(supports);
     }
 }
