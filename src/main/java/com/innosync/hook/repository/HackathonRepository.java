@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface HackathonRepository extends JpaRepository<HackathonEntity, Long> {
     List<HackathonEntity>findByStackContaining(String tag);
+    List<HackathonEntity>findByWriterContaining(String tag);
     @Query("SELECT h FROM HackathonEntity h ORDER BY h.regDate DESC")
     List<HackathonEntity> findTopNByOrderByRegDateDesc(int n);
 
