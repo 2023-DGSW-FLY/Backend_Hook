@@ -1,5 +1,6 @@
 package com.innosync.hook.service;
 
+import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.dto.SupportDto;
 import com.innosync.hook.entity.HackathonEntity;
 import com.innosync.hook.entity.SupportEntity;
@@ -10,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -35,14 +38,17 @@ public class SupportServiceImpl implements SupportService {
     }
 
     @Override
-    public List<SupportDto> getSupportsForHackathon(Long hackathonId) {
+    public Map<String, List<SupportDto>> getSupportsForHackathon(Long hackathonId) {
         Optional<HackathonEntity> hackathonEntityOptional = hackathonRepository.findById(hackathonId);
         if (hackathonEntityOptional.isPresent()) {
             HackathonEntity hackathon = hackathonEntityOptional.get();
             List<SupportDto> supports = hackathon.getSupports().stream()
                     .map(this::entityToDto)
                     .collect(Collectors.toList());
-            return supports;
+
+            Map<String, List<SupportDto>> resultMap = new HashMap<>();
+            resultMap.put("data", supports);
+            return resultMap;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hackathon not found");
     }

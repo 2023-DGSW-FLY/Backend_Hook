@@ -29,6 +29,15 @@ public class HackathonServiceImpl implements HackathonService{
     }
 
     @Override
+    public Map<String , Object> getAllMyContest(String username){
+        List<HackathonEntity> result = hackathonRepository.findByWriterContaining(username);
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", result);
+        return response;
+    }
+
+
+    @Override
     public Map<String, Object> getAccessByTag(String tag) {
         List<HackathonEntity> result = hackathonRepository.findByStackContaining(tag);
         Map<String, Object> response = new HashMap<>();
