@@ -38,12 +38,17 @@ public class UserService {
         return user;
     }
 
-    public Map<String, String> login(String userAccount, String password) {
+    @Transactional
+    public Map<String, String> login(String userAccount, String password, String firebaseToken) {
         User user = userRepository.findByUserAccount(userAccount)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
         if (!encoder.matches(password, user.getPassword())) {
-            throw new AppException(ErrorCode.INVALID_PASSWORD);
+            throw new AppException(ErrorCode.USER_NOT_FOUNDED);
         }
+
+
+        user.addFirebaseToken(firebaseToken);
+        userRepository.save(user);
 
         Map<String, String> tokens = new HashMap<>();
         tokens.put("accessToken", JwtTokenUtil.createAccessToken(userAccount, secretKey));

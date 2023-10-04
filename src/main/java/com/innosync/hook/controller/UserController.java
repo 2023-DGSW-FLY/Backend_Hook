@@ -44,7 +44,7 @@ public class UserController {
 
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody UserLoginRequest userLoginRequest) {
-        Map<String, String> tokenMap = userService.login(userLoginRequest.getUserAccount(), userLoginRequest.getPassword());
+        Map<String, String> tokenMap = userService.login(userLoginRequest.getUserAccount(), userLoginRequest.getPassword(), userLoginRequest.getFireBaseToken());
 
         Map<String, Object> response = new HashMap<>();
         Map<String, String> data = new HashMap<>();
@@ -70,18 +70,31 @@ public class UserController {
 
 
     @PostMapping("/refresh")
-    public Response<RefreshResponse> refreshAccessToken(@RequestBody RefreshRequest refreshRequest) {
+    public ResponseEntity<Map<String, Object>> refreshAccessToken(@RequestBody RefreshRequest refreshRequest) {
         String refreshToken = refreshRequest.getRefreshToken();
 
         // 리프레쉬 토큰 검증
         if (!JwtTokenUtil.isRefreshTokenValid(refreshToken, secretKey)) {
-            return Response.error("Invalid refresh token");
+            System.out.println("토큰 잘못됨" + refreshToken);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "403");
+            response.put("message", "유효하지 않은 토큰.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
         }
 
         // 리프레쉬 토큰으로부터 어세스 토큰 생성
         String newAccessToken = JwtTokenUtil.generateAccessTokenFromRefreshToken(refreshToken, secretKey);
 
-        RefreshResponse refreshResponse = new RefreshResponse(newAccessToken);
-        return Response.success(refreshResponse);
+        Map<String, Object> response = new HashMap<>();
+        Map<String, String> data = new HashMap<>();
+        data.put("accessToken", newAccessToken);
+
+        response.put("data", data);
+
+
+
+        return ResponseEntity.ok(response);
     }
+
 }
