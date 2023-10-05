@@ -45,7 +45,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 // 토큰이 만료된 경우 403 오류 반환
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("{\n");
-                response.getWriter().write("    JWT token expired\n");
+                response.getWriter().write("    " + "\"" + "message" + "\""  + ": " + "\"" + "JWT token expired" + "\"\n");
                 response.getWriter().write("}");
                 return;
             }
