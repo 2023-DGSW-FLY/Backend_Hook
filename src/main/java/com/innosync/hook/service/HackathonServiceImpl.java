@@ -22,6 +22,9 @@ public class HackathonServiceImpl implements HackathonService{
                 .map(this::entityToDTO)
                 .collect(Collectors.toList());
 
+        //역순으로 데이터 반환
+        Collections.reverse(hackathonDtos);
+
         Map<String, List<HackathonDto>> resultMap = new HashMap<>();
         resultMap.put("data", hackathonDtos);
 
@@ -59,9 +62,10 @@ public class HackathonServiceImpl implements HackathonService{
 
 
     @Override
-    public Long hackathonRegister(HackathonDto dto, String username) {
+    public Long hackathonRegister(HackathonDto dto, String name, String userName) {
         HackathonEntity hackathonEntity = dtoToEntity(dto);
-        hackathonEntity.setWriter(username);
+        hackathonEntity.setWriter(name);
+        hackathonEntity.setUserName(userName);
         hackathonRepository.save(hackathonEntity);
         return hackathonEntity.getId();
     }

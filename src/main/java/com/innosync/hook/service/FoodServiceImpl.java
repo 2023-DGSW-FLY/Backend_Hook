@@ -23,6 +23,8 @@ public class FoodServiceImpl implements FoodService {
                 .map(this::entityToDTO)
                 .collect(Collectors.toList());
 
+        Collections.reverse(foodDtos);
+
         Map<String, List<FoodDto>> resultMap = new HashMap<>();
         resultMap.put("data", foodDtos);
 
@@ -35,6 +37,7 @@ public class FoodServiceImpl implements FoodService {
                 .map(this::entityToDTO)
                 .collect(Collectors.toList());
 
+
         Map<String, List<FoodDto>> resultMap = new HashMap<>();
         resultMap.put("data", recentFoodDtos);
 
@@ -42,9 +45,10 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Long foodRegister(FoodDto dto , String username, Long userId) {
+    public Long foodRegister(FoodDto dto , String name, Long userId, String userName) {
         FoodEntity foodEntity = dtoToEntity(dto);
-        foodEntity.setWriter(username);
+        foodEntity.setWriter(name);
+        foodEntity.setUserName(userName);
         foodEntity.setUserId(userId);
         foodRepository.save(foodEntity);
         return foodEntity.getId();

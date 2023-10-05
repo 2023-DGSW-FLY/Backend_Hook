@@ -21,6 +21,8 @@ public class ExerciseServiceImpl implements ExerciseService {
                 .map(this::entityToDTO)
                 .collect(Collectors.toList());
 
+        Collections.reverse(exerciseDtos);
+
         Map<String, List<ExerciseDto>> resultMap = new HashMap<>();
         resultMap.put("data", exerciseDtos);
 
@@ -49,9 +51,10 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public Long exerciseRegister(ExerciseDto dto, String name, Long userId) {
+    public Long exerciseRegister(ExerciseDto dto, String name, Long userId, String userName) {
         ExerciseEntity exerciseEntity = dtoToEntity(dto);
-        exerciseEntity.setUsername(name);
+        exerciseEntity.setWriter(name);
+        exerciseEntity.setUserName(userName);
         exerciseEntity.setUserId(userId);
         exerciseRepository.save(exerciseEntity);
         return exerciseEntity.getId();
