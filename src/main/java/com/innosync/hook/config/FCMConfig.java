@@ -17,9 +17,9 @@ public class FCMConfig {
     @Bean
     FirebaseMessaging firebaseMessaging() throws IOException {
         //로컬용
-        //ClassPathResource resource = new ClassPathResource("firebase/android-chat-fd2a6-firebase-adminsdk-i7qn9-8297a1f6dc.json");
+        ClassPathResource resource = new ClassPathResource("firebase/android-chat-fd2a6-firebase-adminsdk-i7qn9-8297a1f6dc.json");
         //배포용 (EC2)
-        ClassPathResource resource = new ClassPathResource("/home/ubuntu/Backend_Hook/src/main/resources/firebase/android-chat-fd2a6-firebase-adminsdk-i7qn9-8297a1f6dc.json");
+        //ClassPathResource resource = new ClassPathResource("/home/ubuntu/Backend_Hook/src/main/resources/firebase/android-chat-fd2a6-firebase-adminsdk-i7qn9-8297a1f6dc.json");
         InputStream refreshToken = resource.getInputStream();
 
         FirebaseApp firebaseApp = null;
