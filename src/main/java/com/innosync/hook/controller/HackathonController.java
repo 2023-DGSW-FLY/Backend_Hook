@@ -63,12 +63,12 @@ public class HackathonController {
 
     // C POST
     @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void register(
+    public String register(
             @RequestBody HackathonDto dto , Authentication authentication
     ){
         String username = authentication.getName();
         service.hackathonRegister(dto, username);
+        return "success";
     }
     // R GET : /{id},
     @GetMapping("/{id}")
