@@ -1,5 +1,6 @@
 package com.innosync.hook.controller;
 
+import com.innosync.hook.dto.AccessDto;
 import com.innosync.hook.service.HackathonService;
 import com.innosync.hook.dto.HackathonDto;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -63,12 +65,14 @@ public class HackathonController {
 
     // C POST
     @PostMapping("")
-    public String register(
+    public Map<String, String> register(
             @RequestBody HackathonDto dto , Authentication authentication
     ){
         String username = authentication.getName();
         service.hackathonRegister(dto, username);
-        return "success";
+        Map<String, String> data = new HashMap<>();
+        data.put("Success" , "Success");
+        return data;
     }
     // R GET : /{id},
     @GetMapping("/{id}")
