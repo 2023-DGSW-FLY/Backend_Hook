@@ -22,6 +22,7 @@ public class FoodDto {
     @Enumerated(EnumType.STRING)
     private Status status;
     private String writer;
+    private String userName;
     private Long userId; // 작성자 FK값
     private LocalDateTime regDate, modDate;
 

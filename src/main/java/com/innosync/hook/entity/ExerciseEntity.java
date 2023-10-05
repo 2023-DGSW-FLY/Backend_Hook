@@ -29,7 +29,10 @@ public class ExerciseEntity extends BaseEntity{
     private String place;
 
     @Column
-    private String username;
+    private String writer;
+
+    @Column
+    private String userName;
 
     @Column
     private Long userId;

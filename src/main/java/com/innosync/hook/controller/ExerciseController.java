@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -58,14 +59,19 @@ public class ExerciseController {
     // C POST
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(
+    public Map<String , String> register(
             @RequestBody ExerciseDto dto, Authentication authentication
     ){
         String username = authentication.getName();
         Optional<User> userOptional = repository.findByUserAccount(username);
         User user = userOptional.get(); // User정보 받아서
         Long userId = user.getId(); //정보중 user_id 만 추출하여 userId에 저장
-        service.exerciseRegister(dto,username,userId);
+        String userName = user.getUser_name();
+        service.exerciseRegister(dto,username,userId,userName);
+
+        Map<String, String> data = new HashMap<>();
+        data.put("Success" , "Success");
+        return data;
     }
 
 

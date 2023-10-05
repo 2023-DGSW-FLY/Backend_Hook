@@ -16,7 +16,7 @@ public interface FoodService {
     // parameter 값으로 반환
     Map<String, List<FoodDto>> getRecentFood(int count);
     // C
-    Long foodRegister(FoodDto dto, String username, Long userId);
+    Long foodRegister(FoodDto dto, String username, Long userId, String userName);
 
     // R
     Map<String, FoodDto> foodRead(Long id);
@@ -50,6 +50,7 @@ public interface FoodService {
                 .foodName(entity.getFoodName())
                 .status(Status.valueOf(String.valueOf(entity.getStatus())))
                 .writer(entity.getWriter())
+                .userName(entity.getUserName())
                 .userId(entity.getUserId())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())

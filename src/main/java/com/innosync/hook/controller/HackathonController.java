@@ -1,6 +1,8 @@
 package com.innosync.hook.controller;
 
 import com.innosync.hook.dto.AccessDto;
+import com.innosync.hook.repository.UserRepository;
+import com.innosync.hook.req.User;
 import com.innosync.hook.service.HackathonService;
 import com.innosync.hook.dto.HackathonDto;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequestMapping("/hackathon")
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 public class HackathonController {
 
     private final HackathonService service;
+    private final UserRepository repository;
 
     // 자신이 작성한 모든 대회글 불러오기
     @GetMapping("/all")
@@ -68,8 +72,11 @@ public class HackathonController {
     public Map<String, String> register(
             @RequestBody HackathonDto dto , Authentication authentication
     ){
-        String username = authentication.getName();
-        service.hackathonRegister(dto, username);
+        String name = authentication.getName();
+        Optional<User> userOptional = repository.findByUserAccount(name);
+        User user = userOptional.get();
+        String userName = user.getUser_name();
+        service.hackathonRegister(dto, name, userName);
         Map<String, String> data = new HashMap<>();
         data.put("Success" , "Success");
         return data;

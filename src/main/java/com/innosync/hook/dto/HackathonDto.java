@@ -30,5 +30,7 @@ public class HackathonDto {
 
     private String writer;
 
+    private String userName;
+
     private LocalDateTime regDate, modDate;
 }

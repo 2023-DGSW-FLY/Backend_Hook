@@ -1,6 +1,5 @@
 package com.innosync.hook.controller;
 
-import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.repository.UserRepository;
 import com.innosync.hook.req.User;
 import com.innosync.hook.service.FoodService;
@@ -11,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -52,7 +52,7 @@ public class FoodController {
     // C POST
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(
+    public Map<String, String> register(
             @RequestBody FoodDto dto , Authentication authentication
 
     ){
@@ -60,7 +60,11 @@ public class FoodController {
         Optional<User> userOptional = repository.findByUserAccount(username);
         User user = userOptional.get(); // User정보 받아서
         Long userId = user.getId(); //정보중 user_id 만 추출하여 userId에 저장
-        service.foodRegister(dto,username,userId);
+        String userName = user.getUser_name();
+        service.foodRegister(dto,username,userId,userName);
+        Map<String, String> data = new HashMap<>();
+        data.put("Success" , "Success");
+        return data;
     }
     // R GET : /{id},
     @GetMapping("/{id}")

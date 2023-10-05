@@ -39,6 +39,10 @@ public class FoodEntity extends BaseEntity{
     private String writer;
 
     @Column
+    private String userName;
+
+
+    @Column
     private Long userId; // 작성자 FK값
 
 //    public void setDateTime(String dateTime) {

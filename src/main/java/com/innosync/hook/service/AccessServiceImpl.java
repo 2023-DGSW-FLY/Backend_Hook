@@ -7,10 +7,7 @@ import com.innosync.hook.repository.AccessRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -28,6 +25,8 @@ public class AccessServiceImpl implements AccessService {
 
         Map<String, List<AccessDto>> resultMap = new HashMap<>();
         resultMap.put("data", accessDtos);
+
+        Collections.reverse(accessDtos);
 
         return resultMap;
     }

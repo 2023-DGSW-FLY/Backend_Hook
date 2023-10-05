@@ -16,7 +16,7 @@ public interface ExerciseService {
     Map<String, List<ExerciseDto>> getRecentExercise(int count);
 
     // C
-    Long exerciseRegister(ExerciseDto dto, String name, Long userId);
+    Long exerciseRegister(ExerciseDto dto, String name, Long userId, String userName);
 
     Map<String, Object> getAccessByTag(String tag);
 
@@ -51,7 +51,8 @@ public interface ExerciseService {
                 .place(entity.getPlace())
                 .exercise(entity.getExercise())
                 .dateTime(entity.getDateTime())
-                .username(entity.getUsername())
+                .userName(entity.getUserName())
+                .writer(entity.getWriter())
                 .userId(entity.getUserId())
                 .status(Status.valueOf(String.valueOf(entity.getStatus())))
                 .regDate(entity.getRegDate())
