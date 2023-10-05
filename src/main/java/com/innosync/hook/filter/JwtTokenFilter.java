@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,7 +42,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         try {
             if (isExpired(token)) {
-                filterChain.doFilter(request, response);
+                // 토큰이 만료된 경우 403 오류 반환
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("{\n");
+                response.getWriter().write("    JWT token expired\n");
+                response.getWriter().write("}");
                 return;
             }
 
@@ -81,4 +87,5 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             return true;
         }
     }
+
 }

@@ -1,7 +1,9 @@
 package com.innosync.hook.token;
 
 
+import com.innosync.hook.req.Response;
 import io.jsonwebtoken.*;
+import org.springframework.http.ResponseEntity;
 
 import java.time.Duration;
 import java.util.Date;
@@ -64,11 +66,11 @@ public class JwtTokenUtil {
             return createAccessToken(userAccount, key);
         } catch (ExpiredJwtException e) {
             // 만료된 리프레시 토큰일 경우
-            e.printStackTrace(); // 예외를 출력하거나 로깅할 수 있습니다.
+            ResponseEntity.status(403);
             return "Expired refresh token"; // 만료된 리프레시 토큰일 경우 오류 메시지 반환
         } catch (JwtException e) {
             // 리프레시 토큰이 잘못된 경우
-            e.printStackTrace(); // 예외를 출력하거나 로깅할 수 있습니다.
+            ResponseEntity.status(403);
             return "Invalid refresh token"; // 잘못된 리프레시 토큰일 경우 오류 메시지 반환
         }
     }
