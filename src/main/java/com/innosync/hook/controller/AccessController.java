@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -76,11 +77,16 @@ public class AccessController {
     // C POST : /access
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(
+    public Map<String , String> register(
             @RequestBody AccessDto dto, Authentication authentication
     ){
         String username = authentication.getName();
         service.register(dto,username);
+
+        Map<String, String> data = new HashMap<>();
+        data.put("Success" , "Success");
+
+        return data;
     }
     // R GET : /{id},
     @GetMapping("/{id}")
