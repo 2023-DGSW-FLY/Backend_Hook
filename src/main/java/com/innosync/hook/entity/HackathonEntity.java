@@ -1,5 +1,6 @@
 package com.innosync.hook.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.innosync.hook.constant.Status;
 import lombok.*;
 
@@ -45,7 +46,9 @@ public class HackathonEntity extends BaseEntity{
 //    private User user;
 
     @OneToMany(mappedBy = "hackathon", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore // 스택 오버플로우 방지
     private List<SupportEntity> supports = new ArrayList<>();
+
 
     // 게시물과 지원서 연결
     public void addSupport(SupportEntity support) {
