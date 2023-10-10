@@ -2,6 +2,7 @@ package com.innosync.hook.service;
 
 import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.entity.ExerciseEntity;
+import com.innosync.hook.entity.FoodEntity;
 import com.innosync.hook.repository.ExerciseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,14 @@ import java.util.stream.Collectors;
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
     private final ExerciseRepository exerciseRepository;
+
+    @Override
+    public Map<String , Object> getAllMyContest(String username){
+        List<ExerciseEntity> result = exerciseRepository.findByWriterContaining(username);
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", result);
+        return response;
+    }
 
     @Override
     public Map<String, List<ExerciseDto>> getAllAccess() {

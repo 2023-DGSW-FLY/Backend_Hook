@@ -23,6 +23,12 @@ public class FoodController {
     private final FoodService service;
     private final UserRepository repository;
 
+    @GetMapping("/all")
+    public Map<String, Object> getAllMyContest(Authentication authentication){
+        String username = authentication.getName();
+        return service.getAllMyContest(username);
+    }
+
 //    // 모든값 가져오기
 //    @GetMapping("/all")
 //    public Map<String, List<FoodDto>> getAllAccess() {

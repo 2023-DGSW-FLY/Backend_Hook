@@ -4,6 +4,7 @@ import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.dto.FoodDto;
 import com.innosync.hook.entity.ExerciseEntity;
 import com.innosync.hook.entity.FoodEntity;
+import com.innosync.hook.entity.HackathonEntity;
 import com.innosync.hook.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,14 @@ import java.util.stream.Collectors;
 @Service
 public class FoodServiceImpl implements FoodService {
     private final FoodRepository foodRepository;
+
+    @Override
+    public Map<String , Object> getAllMyContest(String username){
+        List<FoodEntity> result = foodRepository.findByWriterContaining(username);
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", result);
+        return response;
+    }
 
     @Override
     public Map<String, List<FoodDto>> getAllAccess() {

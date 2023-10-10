@@ -25,10 +25,13 @@ public class ExerciseController {
     private final ExerciseService service;
     private final UserRepository repository;
 
+
+
     // 모든값 가져오기
     @GetMapping("/all")
-    public Map<String, List<ExerciseDto>> getAllAccess() {
-        return service.getAllAccess();
+    public Map<String, Object> getAllMyContest(Authentication authentication){
+        String username = authentication.getName();
+        return service.getAllMyContest(username);
     }
 
     @GetMapping("/get")

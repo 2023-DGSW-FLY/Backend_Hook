@@ -10,6 +10,9 @@ import java.util.Map;
 
 public interface FoodService {
 
+    //자신이 작성한 모든글 반환
+    Map<String, Object> getAllMyContest(String username);
+
     // 모든 값 반환
     Map<String, List<FoodDto>> getAllAccess();
 
