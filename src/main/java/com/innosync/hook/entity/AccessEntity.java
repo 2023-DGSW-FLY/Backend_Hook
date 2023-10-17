@@ -27,6 +27,8 @@ public class AccessEntity extends BaseEntity{
     private String url;
     @Enumerated(EnumType.STRING)
     private Status status;
+    @Column
+    private Long userId;
 
     public void changeContent(String content) {
         this.content = content;
@@ -41,6 +43,10 @@ public class AccessEntity extends BaseEntity{
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public void setUserId(Long id){
+        this.userId=id;
     }
 
     @PrePersist

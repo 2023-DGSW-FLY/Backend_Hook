@@ -1,6 +1,9 @@
 package com.innosync.hook.controller;
 
 import com.innosync.hook.dto.HackathonDto;
+import com.innosync.hook.repository.AccessRepository;
+import com.innosync.hook.repository.UserRepository;
+import com.innosync.hook.req.User;
 import com.innosync.hook.service.AccessService;
 import com.innosync.hook.dto.AccessDto;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequestMapping("/access")
@@ -22,6 +26,7 @@ import java.util.stream.Collectors;
 public class AccessController {
 
     private final AccessService service;
+    private final UserRepository userRepository;
 
 //    // GET: /access/all
 //    @GetMapping("/all")
@@ -81,7 +86,9 @@ public class AccessController {
             @RequestBody AccessDto dto, Authentication authentication
     ){
         String username = authentication.getName();
-        service.register(dto,username);
+        Optional<User> userOptional = userRepository.findByUserAccount(username);
+        Long userId = userOptional.get().getId();
+        service.register(dto,username,userId);
 
         Map<String, String> data = new HashMap<>();
         data.put("Success" , "Success");

@@ -14,8 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.annotation.MultipartConfig;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -102,6 +102,13 @@ public class UserController {
 
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/image/{id}")
+    public RedirectView imgUrlRedirect(@PathVariable("id") Long id) {
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl(userService.imgUrlRedirect(id));
+        return redirectView;
     }
 
 }

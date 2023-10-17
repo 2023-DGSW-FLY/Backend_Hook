@@ -17,5 +17,6 @@ public class AccessDto {
     private String content;
     private String url;
     private String status = "matching";
+    private Long userId;
     private LocalDateTime regDate, modDate;
 }

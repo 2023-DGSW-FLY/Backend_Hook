@@ -19,7 +19,7 @@ public interface HackathonService {
     //갯수로 가져오기
     Map<String, List<HackathonDto>> getRecentHackathons(int count);
     // C
-    Long hackathonRegister(HackathonDto dto, String name, String userName);
+    Long hackathonRegister(HackathonDto dto, String name, String userName, Long id);
     // R
     Map<String, HackathonDto> hackathonRead(Long id);
     // U
@@ -52,6 +52,7 @@ public interface HackathonService {
                 .status(Status.valueOf(String.valueOf(entity.getStatus())))
                 .writer(entity.getWriter())
                 .userName(entity.getUserName())
+                .userId(entity.getUserId())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .build();

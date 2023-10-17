@@ -40,6 +40,9 @@ public class HackathonEntity extends BaseEntity{
 
     @Column
     private String userName;
+
+    @Column
+    private Long userId;
 //
 //    @ManyToOne
 //    @JoinColumn(name = "user_id") // 사용자 정보를 참조하는 외래 키
@@ -63,6 +66,9 @@ public class HackathonEntity extends BaseEntity{
 
     public void setUserName(String name){
         this.userName=name;
+    }
+    public void setUserId(Long id){
+        this.userId=id;
     }
     public void hackathonChangeTitle(String title){
         this.title = title;

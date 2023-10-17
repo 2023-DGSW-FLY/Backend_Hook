@@ -76,7 +76,8 @@ public class HackathonController {
         Optional<User> userOptional = repository.findByUserAccount(name);
         User user = userOptional.get();
         String userName = user.getUser_name();
-        service.hackathonRegister(dto, name, userName);
+        Long userId = user.getId();
+        service.hackathonRegister(dto, name, userName,userId);
         Map<String, String> data = new HashMap<>();
         data.put("Success" , "Success");
         return data;

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -71,5 +72,9 @@ public class UserService {
     public User getUserByUserAccount(String userAccount) {
         return userRepository.findByUserAccount(userAccount)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
+    }
+
+    public String imgUrlRedirect(Long id){
+        return userRepository.findById(id).get().getImageUrl();
     }
 }
