@@ -3,15 +3,13 @@ package com.innosync.hook.req;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -52,6 +50,10 @@ public class User {
     @JsonProperty("portfolio_url")
     private String portfolio_url;
 
+    @Column
+    @JsonProperty("imageUrl")
+    private String imageUrl;
+
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_Role")
@@ -59,6 +61,7 @@ public class User {
 
     @Column
     private String firebaseToken;
+
     public User(String userAccount, String password, String user_name, String email, String user_info, String github_url, String portfolio_url) {
         this.userAccount = userAccount;
         this.password = password;

@@ -12,8 +12,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.annotation.MultipartConfig;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -31,10 +34,12 @@ public class UserController {
     private final UserRepository repository;
 
     @PostMapping("/join")
-    public Response<UserJoinResponse> join(@RequestBody UserJoinRequest userJoinRequest) {
+    public Response<UserJoinResponse> join(@RequestPart("data") UserJoinRequest userJoinRequest, @RequestPart("image") MultipartFile file) throws IOException {
+//        System.out.println("name" + userJoinRequest.getUserName());
+//        System.out.println("pwd" + userJoinRequest.getPassword());
         String encodedPassword = encoder.encode(userJoinRequest.getPassword());
         User user = new User(userJoinRequest.getUserAccount(), encodedPassword, userJoinRequest.getUserName(), userJoinRequest.getEmail(), userJoinRequest.getUser_info(), userJoinRequest.getGithub_url(),userJoinRequest.getGithub_url());
-        userService.join(user);
+        userService.join(user, file);
         UserJoinResponse userJoinResponse = new UserJoinResponse(user.getUserAccount());
 
         return Response.success(userJoinResponse);

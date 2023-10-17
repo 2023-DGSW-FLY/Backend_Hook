@@ -1,6 +1,7 @@
 package com.innosync.hook.service;
 
 
+import com.innosync.hook.aws.S3Uploader;
 import com.innosync.hook.exception.AppException;
 import com.innosync.hook.exception.ErrorCode;
 import com.innosync.hook.repository.UserRepository;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,13 +25,20 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final S3Uploader s3Uploader;
+
     private final BCryptPasswordEncoder encoder;
 
     @Value("${jwt.token.secret}")
     private String secretKey;
 
     @Transactional
-    public User join(User user) {
+    public User join(User user, MultipartFile image) throws IOException {
+        if(!image.isEmpty()) {
+            System.out.println("File set");
+            String storedFileName = s3Uploader.upload(image,"images");
+            user.setImageUrl(storedFileName);
+        }
         userRepository.findByUserAccount(user.getUserAccount())
                 .ifPresent(user1 -> {
                     throw new AppException(ErrorCode.DUPLICATED_USER_NAME);
