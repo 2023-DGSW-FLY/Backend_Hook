@@ -75,6 +75,13 @@ public class UserService {
     }
 
     public String imgUrlRedirect(Long id){
-        return userRepository.findById(id).get().getImageUrl();
+        if (userRepository.findById(id).get().getImageUrl()!=null){
+            System.out.println(userRepository.findById(id).get().getImageUrl());
+            return userRepository.findById(id).get().getImageUrl();
+        } else {
+            System.out.println("not image");
+            return "https://hook-s3-innosync.s3.ap-northeast-2.amazonaws.com/images/initUserImage.png"; //기본 이미지
+        }
+
     }
 }
