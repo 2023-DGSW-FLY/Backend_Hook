@@ -33,7 +33,6 @@ public interface HackathonService {
 
     default HackathonEntity dtoToEntity(HackathonDto dto) {
         return HackathonEntity.builder()
-                .id(dto.getId())
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .stack(String.join(",", dto.getStack())) // Convert the list to a comma-separated string

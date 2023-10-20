@@ -37,7 +37,6 @@ public interface ExerciseService {
 
     default ExerciseEntity dtoToEntity(ExerciseDto dto) {
         return ExerciseEntity.builder()
-                .id(dto.getId())
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .place(dto.getPlace())

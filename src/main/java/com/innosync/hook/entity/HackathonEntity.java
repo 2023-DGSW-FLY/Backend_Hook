@@ -53,6 +53,21 @@ public class HackathonEntity extends BaseEntity{
     private List<SupportEntity> supports = new ArrayList<>();
 
 
+    @Builder
+    public HackathonEntity(String title, String content, String stack, String url, Status status, String writer, String userName, Long userId, List<SupportEntity> supports) {
+        this.title = title;
+        this.content = content;
+        this.stack = stack;
+        this.url = url;
+        this.status = status;
+        this.writer = writer;
+        this.userName = userName;
+        this.userId = userId;
+        this.supports = supports;
+    }
+
+
+
     // 게시물과 지원서 연결
     public void addSupport(SupportEntity support) {
         supports.add(support);

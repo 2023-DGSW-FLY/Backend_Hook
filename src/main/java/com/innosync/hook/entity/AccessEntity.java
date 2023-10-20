@@ -7,8 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "access")
-@Builder
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
@@ -29,6 +28,16 @@ public class AccessEntity extends BaseEntity{
     private Status status;
     @Column
     private Long userId;
+
+    @Builder
+    public AccessEntity(String name, String stack, String content, String url, Status status, Long userId) {
+        this.name = name;
+        this.stack = stack;
+        this.content = content;
+        this.url = url;
+        this.status = status;
+        this.userId = userId;
+    }
 
     public void changeContent(String content) {
         this.content = content;

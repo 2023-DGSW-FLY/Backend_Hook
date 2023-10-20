@@ -34,7 +34,6 @@ public interface FoodService {
 
     default FoodEntity dtoToEntity(FoodDto dto) {
         return FoodEntity.builder()
-                .id(dto.getId())
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .place(dto.getPlace())

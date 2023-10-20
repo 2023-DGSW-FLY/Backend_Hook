@@ -32,11 +32,11 @@ public interface AccessService {
 
     default AccessEntity dtoToEntity(AccessDto dto) {
         return AccessEntity.builder()
-                .id(dto.getId())
                 .name(dto.getName())
                 .stack(dto.getStack())
                 .content(dto.getContent())
                 .url(dto.getUrl())
+                .userId(dto.getUserId())
                 .status(Status.valueOf(dto.getStatus()))
                 .build();
     }

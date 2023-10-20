@@ -8,8 +8,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "exersise")
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
@@ -46,8 +44,20 @@ public class ExerciseEntity extends BaseEntity{
     @Column(name = "exercise")
     private String exercise;
 
+    @Builder
+    public ExerciseEntity(String title, String content, String place, String writer, String userName, Long userId, String dateTime, Status status, String exercise) {
+        this.title = title;
+        this.content = content;
+        this.place = place;
+        this.writer = writer;
+        this.userName = userName;
+        this.userId = userId;
+        this.dateTime = dateTime;
+        this.status = status;
+        this.exercise = exercise;
+    }
 
-//    public void setExercise(String exercise) {
+    //    public void setExercise(String exercise) {
 //        this.exercise = exercise;
 //    }
 //

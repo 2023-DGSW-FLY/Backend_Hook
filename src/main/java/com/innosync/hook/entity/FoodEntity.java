@@ -8,8 +8,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "food")
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
@@ -44,6 +42,20 @@ public class FoodEntity extends BaseEntity{
 
     @Column
     private Long userId; // 작성자 FK값
+
+    @Builder
+    public FoodEntity(String title, String content, String place, String foodName, Status status, String writer, String userName, Long userId) {
+        this.title = title;
+        this.content = content;
+        this.place = place;
+        this.foodName = foodName;
+        this.status = status;
+        this.writer = writer;
+        this.userName = userName;
+        this.userId = userId;
+    }
+
+
 
 //    public void setDateTime(String dateTime) {
 //        this.dateTime = dateTime;
