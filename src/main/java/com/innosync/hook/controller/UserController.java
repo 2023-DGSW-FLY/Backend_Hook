@@ -110,5 +110,12 @@ public class UserController {
         redirectView.setUrl(userService.imgUrlRedirect(id));
         return redirectView;
     }
-
+    @GetMapping("/user/{userId}")
+    public Map<String, Object> toUserId(@PathVariable("userId") Long id){
+        Map<String, String> resultMap = new HashMap<>();
+        resultMap.put("name", repository.findById(id).get().getUser_name());
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", resultMap);
+        return map;
+    }
 }
