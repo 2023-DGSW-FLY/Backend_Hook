@@ -38,7 +38,7 @@ public class UserService {
         if(!image.isEmpty()) {
             System.out.println("File set");
             String storedFileName = s3Uploader.upload(image,"images");
-            user.setImageUrl(storedFileName);
+            user.addImageUrl(storedFileName);
         }
         userRepository.findByUserAccount(user.getUserAccount())
                 .ifPresent(user1 -> {

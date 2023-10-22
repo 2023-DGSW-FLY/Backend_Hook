@@ -9,10 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
     @Id
@@ -62,6 +59,7 @@ public class User {
     @Column
     private String firebaseToken;
 
+    @Builder
     public User(String userAccount, String password, String user_name, String email, String user_info, String github_url, String portfolio_url) {
         this.userAccount = userAccount;
         this.password = password;
@@ -71,6 +69,10 @@ public class User {
         this.github_url = github_url;
         this.portfolio_url = portfolio_url;
         this.userRole = UserRole.USER;
+    }
+
+    public void addImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void addFirebaseToken(String firebaseToken){
