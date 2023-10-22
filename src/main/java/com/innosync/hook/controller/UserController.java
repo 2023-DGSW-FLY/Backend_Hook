@@ -118,4 +118,14 @@ public class UserController {
         map.put("data", resultMap);
         return map;
     }
+    @PostMapping("/user/all")
+    public Map<String, Object> toUserIdAll(@RequestBody UserIdRequest request) {
+        Map<String , String> name = new HashMap<>();
+        for(int i=0; i<request.getUserId().size(); i++){
+            name.put(request.getUserId().get(i),  repository.findById(Long.valueOf(request.getUserId().get(i))).get().getUser_name());
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("data" , name);
+        return result;
+    }
 }
