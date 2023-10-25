@@ -18,8 +18,14 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public Map<String , Object> getAllMyContest(String username){
         List<ExerciseEntity> result = exerciseRepository.findByWriterContaining(username);
+        List<ExerciseDto> exerciseDtos = result.stream()
+                .map(this::entityToDTO)
+                .collect(Collectors.toList());
+
+        Collections.reverse(exerciseDtos);
+
         Map<String, Object> response = new HashMap<>();
-        response.put("data", result);
+        response.put("data", exerciseDtos);
         return response;
     }
 

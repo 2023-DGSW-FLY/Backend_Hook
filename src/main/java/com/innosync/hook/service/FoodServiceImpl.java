@@ -20,8 +20,14 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public Map<String , Object> getAllMyContest(String username){
         List<FoodEntity> result = foodRepository.findByWriterContaining(username);
+        List<FoodDto> foodDtos = result.stream()
+                .map(this::entityToDTO)
+                .collect(Collectors.toList());
+
+        Collections.reverse(foodDtos);
+
         Map<String, Object> response = new HashMap<>();
-        response.put("data", result);
+        response.put("data", foodDtos);
         return response;
     }
 

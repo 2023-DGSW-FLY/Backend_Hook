@@ -27,7 +27,7 @@ public class ExerciseController {
 
 
 
-    // 모든값 가져오기
+    // 자신이 작성한 글 모두 받아오기
     @GetMapping("/all")
     public Map<String, Object> getAllMyContest(Authentication authentication){
         String username = authentication.getName();

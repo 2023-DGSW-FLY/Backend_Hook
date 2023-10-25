@@ -23,6 +23,8 @@ public class FoodController {
     private final FoodService service;
     private final UserRepository repository;
 
+
+    //자신이 작성한 모든 글 받아오기
     @GetMapping("/all")
     public Map<String, Object> getAllMyContest(Authentication authentication){
         String username = authentication.getName();
