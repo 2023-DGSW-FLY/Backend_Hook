@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface AccessRepository extends JpaRepository<AccessEntity, Long> {
+
+    List<AccessEntity> findByNameContaining(String name);
     List<AccessEntity> findByStackContaining(String tag);
     @Query("SELECT h FROM AccessEntity h ORDER BY h.regDate DESC")
     List<AccessEntity> findTopNByOrderByRegDateDesc(int n);

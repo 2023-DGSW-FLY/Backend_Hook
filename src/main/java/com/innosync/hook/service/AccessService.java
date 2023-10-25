@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface AccessService {
-
+    //자신이 작성한 모든글 반환
+    Map<String, Object> getAllMyContest(String username);
     //get all
     Map<String, List<AccessDto>> getAllAccess();
     // parameter 값으로

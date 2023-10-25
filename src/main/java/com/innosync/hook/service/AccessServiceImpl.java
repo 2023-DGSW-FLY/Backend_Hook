@@ -1,8 +1,10 @@
 package com.innosync.hook.service;
 
 import com.innosync.hook.dto.AccessDto;
+import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.dto.HackathonDto;
 import com.innosync.hook.entity.AccessEntity;
+import com.innosync.hook.entity.ExerciseEntity;
 import com.innosync.hook.repository.AccessRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,21 @@ import java.util.stream.Collectors;
 @Service
 public class AccessServiceImpl implements AccessService {
     private final AccessRepository accessRepository;
+
+
+    @Override
+    public Map<String , Object> getAllMyContest(String username){
+        List<AccessEntity> result = accessRepository.findByNameContaining(username);
+        List<AccessDto> Access = result.stream()
+                .map(this::entityToDTO)
+                .collect(Collectors.toList());
+
+        Collections.reverse(Access);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", Access);
+        return response;
+    }
 
     @Override
     public Map<String , List<AccessDto>> getAllAccess() {

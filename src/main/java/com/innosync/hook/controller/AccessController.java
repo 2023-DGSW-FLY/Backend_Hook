@@ -28,11 +28,11 @@ public class AccessController {
     private final AccessService service;
     private final UserRepository userRepository;
 
-//    // GET: /access/all
-//    @GetMapping("/all")
-//    public Map<String, List<AccessDto>> getAllAccess() {
-//        return service.getAllAccess();
-//    }
+    // 자신이 작성한 글 모두 불러오기
+    @GetMapping("/all")
+    public Map<String, List<AccessDto>> getAllAccess() {
+        return service.getAllAccess();
+    }
 
 
     @GetMapping("/get")
