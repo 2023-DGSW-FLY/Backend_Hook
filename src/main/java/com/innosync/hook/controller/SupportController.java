@@ -32,8 +32,8 @@ public class SupportController {
         Optional<User> userOptional = repository.findByUserAccount(username);
         User user = userOptional.get(); // User정보 받아서
         Long userId = user.getId(); //정보중 user_id 만 추출하여 userId에 저장
-        service.applyToHackathon(hackathonId, supportDto, userId);
-
+        String userAccount = user.getUserAccount();
+        service.applyToHackathon(hackathonId, supportDto, userAccount);
         Map<String, String> data = new HashMap<>();
         data.put("Success" , "Success");
 

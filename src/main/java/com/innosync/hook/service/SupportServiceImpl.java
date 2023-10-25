@@ -1,11 +1,14 @@
 package com.innosync.hook.service;
 
 import com.innosync.hook.dto.ExerciseDto;
+import com.innosync.hook.dto.FCMNotificationRequestDto;
 import com.innosync.hook.dto.SupportDto;
 import com.innosync.hook.entity.HackathonEntity;
 import com.innosync.hook.entity.SupportEntity;
 import com.innosync.hook.repository.HackathonRepository;
 import com.innosync.hook.repository.SupportRepository;
+import com.innosync.hook.repository.UserRepository;
+import com.innosync.hook.req.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,10 +25,26 @@ import java.util.stream.Collectors;
 public class SupportServiceImpl implements SupportService {
     private final HackathonRepository hackathonRepository;
     private final SupportRepository supportRepository;
+    private final FCMNotificationService fcmNotificationService;
+    private final UserRepository userRepository;
 
     @Override
-    public Long applyToHackathon(Long hackathonId, SupportDto supportDto, Long userId) {
+    public Long applyToHackathon(Long hackathonId, SupportDto supportDto, String userAccount) {
         Optional<HackathonEntity> hackathonEntityOptional = hackathonRepository.findById(hackathonId);
+        Optional<User> user = userRepository.findByUserAccount(userAccount);
+        Long userId = user.get().getId();
+        Long targetUserId = hackathonEntityOptional.get().getUserId();
+        String userName = supportDto.getApplicantName();
+        FCMNotificationRequestDto fcmNotificationRequestDto = new FCMNotificationRequestDto(targetUserId,userName,supportDto.getIntroduction());
+        //System.out.println(fcmNotificationRequestDto.getBody()+ "||||||||||||||||||이것은 바디여|||||||||||||");
+
+        //        FCMNotificationRequestDto.builder()
+//                .targetUserId(targetUserId)
+//                .title(supportDto.getApplicantName())
+//                .body(supportDto.getIntroduction())
+//                .build();
+
+        fcmNotificationService.sendNotificationService(fcmNotificationRequestDto,userAccount, "p");
         if (hackathonEntityOptional.isPresent()) {
             HackathonEntity hackathon = hackathonEntityOptional.get();
             SupportEntity supportEntity = dtoToEntity(supportDto);

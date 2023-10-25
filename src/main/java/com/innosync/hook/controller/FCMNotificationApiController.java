@@ -23,6 +23,6 @@ public class FCMNotificationApiController {
     @PostMapping()
     public Map<String, String> sendNotificationByToken(@RequestBody FCMNotificationRequestDto requestDto, Authentication authentication){
         String userName = authentication.getName();
-        return fcmNotificationService.sendNotificationService(requestDto,userName);
+        return fcmNotificationService.sendNotificationService(requestDto,userName, "m");
     }
 }

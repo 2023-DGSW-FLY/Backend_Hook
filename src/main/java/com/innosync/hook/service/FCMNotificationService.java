@@ -8,7 +8,6 @@ import com.innosync.hook.dto.FCMNotificationRequestDto;
 import com.innosync.hook.repository.UserRepository;
 import com.innosync.hook.req.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -22,7 +21,8 @@ public class FCMNotificationService{
     private final FirebaseMessaging firebaseMessaging;
     private final UserRepository userRepository;
 
-    public Map<String, String> sendNotificationService(FCMNotificationRequestDto requestDto, String userName){
+    public Map<String, String> sendNotificationService(FCMNotificationRequestDto requestDto, String userName, String type){
+        //System.out.println(requestDto.getBody() + "!!!!!이것은 바디여!!!!!");
         Map<String , String> result = new HashMap<>();
         result.put("Success" , "Success");
         Optional<User> user = userRepository.findById(requestDto.getTargetUserId());
@@ -39,6 +39,7 @@ public class FCMNotificationService{
                         .setToken(user.get().getFirebaseToken())
                         .setNotification(notification)
                         .putData("user", useUserId.toString()) // 이 부분 토큰 추출해서 유저 아이디 반환 (
+                        .putData("type", type)// 0 -> 채팅, 1 -> 게시물
                         .build();
                 try {
                     firebaseMessaging.send(message);
