@@ -8,8 +8,11 @@ import com.innosync.hook.dto.FCMNotificationRequestDto;
 import com.innosync.hook.repository.UserRepository;
 import com.innosync.hook.req.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -19,8 +22,13 @@ public class FCMNotificationService{
     private final FirebaseMessaging firebaseMessaging;
     private final UserRepository userRepository;
 
-    public String sendNotificationService(FCMNotificationRequestDto requestDto){
+    public Map<String, String> sendNotificationService(FCMNotificationRequestDto requestDto, String userName){
+        Map<String , String> result = new HashMap<>();
+        result.put("Success" , "Success");
         Optional<User> user = userRepository.findById(requestDto.getTargetUserId());
+        Optional<User> userOptional = userRepository.findByUserAccount(userName);
+        User user1 = userOptional.get();
+        Long useUserId = user1.getId();
         if (user.isPresent()){
             if (user.get().getFirebaseToken() !=null){
                 Notification notification = Notification.builder()
@@ -30,21 +38,22 @@ public class FCMNotificationService{
                 Message message = Message.builder()
                         .setToken(user.get().getFirebaseToken())
                         .setNotification(notification)
+                        .putData("user", useUserId.toString()) // 이 부분 토큰 추출해서 유저 아이디 반환 (
                         .build();
                 try {
                     firebaseMessaging.send(message);
-                    return "알람을 성공적으로 보냈습니다. targetUserId = " + requestDto.getTargetUserId();
+                    return result;
                 } catch (FirebaseMessagingException e) {
                     e.printStackTrace();
-                    return "알람을 보내기에 실패하였습니다. targetUserId = " + requestDto.getTargetUserId();
+                    return result;
                 }
             }
             else {
-                return "서버에 저장된 해당유저의 firebaseToken이 존재하지 않습니다. targetUserId = " + requestDto.getTargetUserId();
+                return result;
             }
         }
         else {
-            return "해당 유저가 존재하지 않습습니다. targetUserId = " + requestDto.getTargetUserId();
+            return result;
         }
     }
 }
