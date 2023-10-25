@@ -27,7 +27,7 @@ public class HackathonController {
 
     // 자신이 작성한 모든 대회글 불러오기
     @GetMapping("/all")
-    public Map<String, Object> getAllMyContest(Authentication authentication){
+    public Map<String, List<HackathonDto>> getAllMyContest(Authentication authentication){
         String username = authentication.getName();
         return service.getAllMyContest(username);
     }

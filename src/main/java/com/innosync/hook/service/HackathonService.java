@@ -11,7 +11,7 @@ import java.util.Map;
 public interface HackathonService {
 
     //자신이 작성한 모든글 반환
-    Map<String, Object> getAllMyContest(String username);
+    Map<String, List<HackathonDto>> getAllMyContest(String username);
     // 모든 값 반환
     Map<String, List<HackathonDto>> getAllAccess();
     //tag 값 반환

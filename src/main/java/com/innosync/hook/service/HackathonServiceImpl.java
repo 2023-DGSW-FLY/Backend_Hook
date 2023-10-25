@@ -32,10 +32,12 @@ public class HackathonServiceImpl implements HackathonService{
     }
 
     @Override
-    public Map<String , Object> getAllMyContest(String username){
+    public Map<String, List<HackathonDto>> getAllMyContest(String username){
         List<HackathonEntity> result = hackathonRepository.findByWriterContaining(username);
-        Map<String, Object> response = new HashMap<>();
-        response.put("data", result);
+        List<HackathonDto> recentHackathonDtos = result.stream()
+                .map(this::entityToDTO).toList();
+        Map<String, List<HackathonDto>> response = new HashMap<>();
+        response.put("data", recentHackathonDtos);
         return response;
     }
 
@@ -43,8 +45,10 @@ public class HackathonServiceImpl implements HackathonService{
     @Override
     public Map<String, Object> getAccessByTag(String tag) {
         List<HackathonEntity> result = hackathonRepository.findByStackContaining(tag);
+        List<HackathonDto> recentHackathonDtos = result.stream()
+                .map(this::entityToDTO).toList();
         Map<String, Object> response = new HashMap<>();
-        response.put("data", result);
+        response.put("data", recentHackathonDtos);
         return response;
     }
     @Override
