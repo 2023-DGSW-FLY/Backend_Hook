@@ -50,6 +50,7 @@ public interface AccessService {
                 .content(entity.getContent())
                 .url(entity.getUrl())
                 .status(String.valueOf(entity.getStatus()))
+                .userId(entity.getUserId())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .build();
