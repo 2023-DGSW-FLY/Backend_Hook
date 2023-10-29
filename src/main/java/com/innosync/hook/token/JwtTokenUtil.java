@@ -35,14 +35,6 @@ public class JwtTokenUtil {
                 .compact();
     }
 
-    public static boolean isAccessTokenValid(String accessToken, String key) {
-        try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
     public static boolean isRefreshTokenValid(String refreshToken, String key) {
         try {
