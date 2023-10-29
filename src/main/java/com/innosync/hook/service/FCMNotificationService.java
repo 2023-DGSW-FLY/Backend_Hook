@@ -86,6 +86,7 @@ public class FCMNotificationService{
         return FCMResponseDto.builder()
                 .content(fcmEntity.getContent())
                 .type(fcmEntity.getType())
+                .regDate(fcmEntity.getRegDate())
                 .build();
     }
 

@@ -1,9 +1,9 @@
 package com.innosync.hook.entity;
 
 import com.innosync.hook.constant.Status;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 
 
 @Entity

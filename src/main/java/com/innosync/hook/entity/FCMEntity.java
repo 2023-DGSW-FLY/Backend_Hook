@@ -1,12 +1,11 @@
 package com.innosync.hook.entity;
 
-import com.innosync.hook.req.User;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 
 @Entity
 @Getter
