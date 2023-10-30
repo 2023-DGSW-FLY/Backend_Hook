@@ -100,16 +100,22 @@ public class ExerciseController {
 
     // 운동 상태 표시 로직
     // /exercise/status/complete/
-    @PostMapping("/status/complete/{accessId}")
-    public ResponseEntity<String> markAccessAsComplete(@PathVariable Long accessId) {
+    @PostMapping("/status/complete/{exerciseId}")
+    public Map<String,String> markComplete(@PathVariable Long exerciseId) {
         // accessId를 사용하여 게시글 상태를 변경하는 로직을 호출
-        service.changeComplete(accessId);
-        return ResponseEntity.ok("게시글 상태가 complete로 변경되었습니다.");
+        service.changeComplete(exerciseId);
+        Map<String, String> data = new HashMap<>();
+        data.put("Success" , "Success");
+
+        return data;
     }
-    // /exercise/status/match/
-    @PostMapping("/status/match/{accessId}")
-    public ResponseEntity<String> markAccessAsMatching(@PathVariable Long accessId) {
-        service.changeMatching(accessId);
-        return ResponseEntity.ok("게시글 상태가 matching으로 변경되었습니다.");
+    // /access/status/match/
+    @PostMapping("/status/match/{exerciseId}")
+    public Map<String, String> markMatching(@PathVariable Long exerciseId) {
+        service.changeMatching(exerciseId);
+        Map<String, String> data = new HashMap<>();
+        data.put("Success" , "Success");
+
+        return data;
     }
 }
