@@ -5,14 +5,17 @@ import com.innosync.hook.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Configuration
 public class HttpSecurityConfig {
 
 
@@ -24,9 +27,9 @@ public class HttpSecurityConfig {
     @Bean
     protected SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .httpBasic(httpBasic -> httpBasic.disable())
-                .csrf((csrf) -> csrf.disable())
-                .cors(cors -> cors.disable())
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/v1/users/join", "/api/v1/users/login").permitAll()
                         .anyRequest().authenticated()
