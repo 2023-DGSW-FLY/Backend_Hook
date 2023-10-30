@@ -1,8 +1,8 @@
 package com.innosync.hook.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 
 @Entity
 @Table(name = "content")
