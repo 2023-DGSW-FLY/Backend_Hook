@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,7 +22,7 @@ public class SupportController {
     private final UserRepository repository;
 
     @PostMapping("/{hackathonId}/apply")
-    public Map<String, String> applyToHackathon(
+    public ResponseEntity applyToHackathon(
             @PathVariable Long hackathonId,
             @RequestBody SupportDto supportDto,
             Authentication authentication
@@ -33,11 +32,7 @@ public class SupportController {
         User user = userOptional.get(); // User정보 받아서
         Long userId = user.getId(); //정보중 user_id 만 추출하여 userId에 저장
         String userAccount = user.getUserAccount();
-        service.applyToHackathon(hackathonId, supportDto, userAccount);
-        Map<String, String> data = new HashMap<>();
-        data.put("Success" , "Success");
-
-        return data;
+        return service.applyToHackathon(hackathonId, supportDto, userAccount);
     }
 
     @GetMapping("/{hackathonId}/supports")

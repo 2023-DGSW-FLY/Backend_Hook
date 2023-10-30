@@ -1,6 +1,5 @@
 package com.innosync.hook.service;
 
-import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.dto.FCMNotificationRequestDto;
 import com.innosync.hook.dto.SupportDto;
 import com.innosync.hook.entity.HackathonEntity;
@@ -11,13 +10,11 @@ import com.innosync.hook.repository.UserRepository;
 import com.innosync.hook.req.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,31 +26,44 @@ public class SupportServiceImpl implements SupportService {
     private final UserRepository userRepository;
 
     @Override
-    public Long applyToHackathon(Long hackathonId, SupportDto supportDto, String userAccount) {
+    public ResponseEntity applyToHackathon(Long hackathonId, SupportDto supportDto, String userAccount) {
+        Map<String, String> data = new HashMap<>();
         Optional<HackathonEntity> hackathonEntityOptional = hackathonRepository.findById(hackathonId);
         Optional<User> user = userRepository.findByUserAccount(userAccount);
+
+        if (user.isEmpty() || hackathonEntityOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User or Hackathon not found");
+        }
+
         Long userId = user.get().getId();
-        Long targetUserId = hackathonEntityOptional.get().getUserId();
-        String userName = supportDto.getApplicantName();
-        FCMNotificationRequestDto fcmNotificationRequestDto = new FCMNotificationRequestDto(targetUserId,userName,supportDto.getIntroduction());
-        //System.out.println(fcmNotificationRequestDto.getBody()+ "||||||||||||||||||이것은 바디여|||||||||||||");
+        HackathonEntity hackathon = hackathonEntityOptional.get();
 
-        //        FCMNotificationRequestDto.builder()
-//                .targetUserId(targetUserId)
-//                .title(supportDto.getApplicantName())
-//                .body(supportDto.getIntroduction())
-//                .build();
+        // 중복 체크
+        boolean isDuplicate = hackathon.getSupports().stream()
+                .anyMatch(support -> support.getUserId().equals(userId));
 
-        fcmNotificationService.sendNotificationService(fcmNotificationRequestDto,userAccount, "p");
-        if (hackathonEntityOptional.isPresent()) {
-            HackathonEntity hackathon = hackathonEntityOptional.get();
+        if (!isDuplicate) {
+            Long targetUserId = hackathon.getUserId();
+            String userName = supportDto.getApplicantName();
+            FCMNotificationRequestDto fcmNotificationRequestDto = new FCMNotificationRequestDto(targetUserId, userName, supportDto.getIntroduction());
+            fcmNotificationService.sendNotificationService(fcmNotificationRequestDto, userAccount, "p");
+
+            // SupportEntity 생성 및 저장
             SupportEntity supportEntity = dtoToEntity(supportDto);
             supportEntity.setUserId(userId);
-            hackathon.addSupport(supportEntity);
+            supportEntity.setHackathon(hackathon);
             supportEntity = supportRepository.save(supportEntity);
-            return supportEntity.getId();
+
+            // HackathonEntity에 SupportEntity 추가
+            hackathon.addSupport(supportEntity);
+            hackathonRepository.save(hackathon); // HackathonEntity의 변경 사항을 저장
+            data.put("Success" , "Success");
+            return ResponseEntity.status(200).body(data);
+        } else {
+            // 중복 처리 로직
+            data.put("Fail" , "Fail");
+            return ResponseEntity.status(403).body(data);
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hackathon not found");
     }
 
     @Override
