@@ -1,7 +1,5 @@
 package com.innosync.hook.token;
 
-
-import com.innosync.hook.req.Response;
 import io.jsonwebtoken.*;
 import org.springframework.http.ResponseEntity;
 
@@ -10,7 +8,7 @@ import java.util.Date;
 
 public class JwtTokenUtil {
     private static final long expiredTimeMs = 1000 * 60 * 60; // 1시간
-    // private static long expiredTimeMs = 60; // 1분
+    // private static final long expiredTimeMs = 60; // 1분
 
     public static String createAccessToken(String userAccount, String key) {
         Claims claims = Jwts.claims();
