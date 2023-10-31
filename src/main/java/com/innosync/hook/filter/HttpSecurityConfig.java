@@ -34,6 +34,7 @@ public class HttpSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/v1/users/join", "/api/v1/users/login").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/v1/users/image/*").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users/refresh").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->
