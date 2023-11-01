@@ -79,4 +79,12 @@ public class User {
         this.firebaseToken=firebaseToken;
         //System.out.println("토큰 들어옴 | 들어온 파베토큰 | 바뀐 파베토큰 " + firebaseToken + " " + this.firebaseToken);
     }
+    public void fixUserData(String userAccount, String user_name, String email, String user_info, String github_url, String portfolio_url) {
+        this.userAccount = userAccount;
+        this.user_name = user_name;
+        this.email = email;
+        this.user_info = user_info;
+        this.github_url = github_url;
+        this.portfolio_url = portfolio_url;
+    }
 }

@@ -1,5 +1,6 @@
 package com.innosync.hook.controller;
 
+import com.innosync.hook.dto.UserDto;
 import com.innosync.hook.repository.UserRepository;
 import com.innosync.hook.service.UserService;
 import com.innosync.hook.req.*;
@@ -127,5 +128,16 @@ public class UserController {
         Map<String, Object> result = new HashMap<>();
         result.put("data" , name);
         return result;
+    }
+    @PutMapping("/fix/user")
+    public void fixUserData(@RequestBody UserDto dto, Authentication authentication){
+        String userName = authentication.getName();
+        userService.fixUserData(dto, userName);
+        ResponseEntity.ok().body("");
+    }
+    @PutMapping("/fix/image")
+    public void fixUserImg(@RequestPart("image") MultipartFile file, Authentication authentication) throws IOException {
+        String userAccount = authentication.getName();
+        userService.fixUserImage(file,userAccount);
     }
 }
