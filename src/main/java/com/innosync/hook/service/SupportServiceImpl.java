@@ -62,7 +62,7 @@ public class SupportServiceImpl implements SupportService {
         } else {
             // 중복 처리 로직
             data.put("Fail" , "Fail");
-            return ResponseEntity.status(403).body(data);
+            return ResponseEntity.status(409).body(data);
         }
     }
 
