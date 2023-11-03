@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 public class HackathonController {
 
     private final HackathonService service;
-    private final UserRepository repository;
 
     // 자신이 작성한 모든 대회글 불러오기
     @GetMapping("/all")
@@ -72,12 +71,8 @@ public class HackathonController {
     public Map<String, String> register(
             @RequestBody HackathonDto dto , Authentication authentication
     ){
-        String name = authentication.getName();
-        Optional<User> userOptional = repository.findByUserAccount(name);
-        User user = userOptional.get();
-        String userName = user.getUser_name();
-        Long userId = user.getId();
-        service.hackathonRegister(dto, name, userName,userId);
+
+        service.hackathonRegister(dto, authentication);
         Map<String, String> data = new HashMap<>();
         data.put("Success" , "Success");
         return data;

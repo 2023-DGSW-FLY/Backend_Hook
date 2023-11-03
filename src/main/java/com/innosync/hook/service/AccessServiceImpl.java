@@ -6,7 +6,10 @@ import com.innosync.hook.dto.HackathonDto;
 import com.innosync.hook.entity.AccessEntity;
 import com.innosync.hook.entity.ExerciseEntity;
 import com.innosync.hook.repository.AccessRepository;
+import com.innosync.hook.repository.UserRepository;
+import com.innosync.hook.req.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,18 +20,19 @@ import java.util.stream.Collectors;
 @Service
 public class AccessServiceImpl implements AccessService {
     private final AccessRepository accessRepository;
+    private final UserRepository userRepository;
 
 
     @Override
-    public Map<String , Object> getAllMyContest(String username){
-        List<AccessEntity> result = accessRepository.findByNameContaining(username);
+    public Map<String , List<AccessDto>> getAllMyContest(Authentication authentication){
+        List<AccessEntity> result = accessRepository.findByNameContaining(authentication.getName());
         List<AccessDto> Access = result.stream()
                 .map(this::entityToDTO)
                 .collect(Collectors.toList());
 
         Collections.reverse(Access);
 
-        Map<String, Object> response = new HashMap<>();
+        Map<String, List<AccessDto>> response = new HashMap<>();
         response.put("data", Access);
         return response;
     }
@@ -90,7 +94,10 @@ public class AccessServiceImpl implements AccessService {
 
 
     @Override
-    public Long register(AccessDto dto ,String username, Long userId) {
+    public Long register(AccessDto dto , Authentication authentication) {
+        String username = authentication.getName();
+        Optional<User> userOptional = userRepository.findByUserAccount(username);
+        Long userId = userOptional.get().getId();
         AccessEntity accessEntity = dtoToEntity(dto);
         accessEntity.setName(username);
         accessEntity.setUserId(userId);

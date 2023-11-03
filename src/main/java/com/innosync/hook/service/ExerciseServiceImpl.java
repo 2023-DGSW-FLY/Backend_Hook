@@ -4,7 +4,10 @@ import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.entity.ExerciseEntity;
 import com.innosync.hook.entity.FoodEntity;
 import com.innosync.hook.repository.ExerciseRepository;
+import com.innosync.hook.repository.UserRepository;
+import com.innosync.hook.req.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,10 +17,11 @@ import java.util.stream.Collectors;
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
     private final ExerciseRepository exerciseRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public Map<String , Object> getAllMyContest(String username){
-        List<ExerciseEntity> result = exerciseRepository.findByWriterContaining(username);
+    public Map<String , Object> getAllMyContest(Authentication authentication){
+        List<ExerciseEntity> result = exerciseRepository.findByWriterContaining(authentication.getName());
         List<ExerciseDto> exerciseDtos = result.stream()
                 .map(this::entityToDTO)
                 .collect(Collectors.toList());
@@ -66,9 +70,17 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public Long exerciseRegister(ExerciseDto dto, String name, Long userId, String userName) {
+    public Long exerciseRegister(ExerciseDto dto, Authentication authentication) {
+
+        String username = authentication.getName();
+        Optional<User> userOptional = userRepository.findByUserAccount(username);
+        User user = userOptional.get(); // User정보 받아서
+        Long userId = user.getId(); //정보중 user_id 만 추출하여 userId에 저장
+        String userName = user.getUser_name(); // 유저 실명
+        String userAccount = user.getUserAccount(); // 유저 아이디
+
         ExerciseEntity exerciseEntity = dtoToEntity(dto);
-        exerciseEntity.setWriter(name);
+        exerciseEntity.setWriter(userAccount);
         exerciseEntity.setUserName(userName);
         exerciseEntity.setUserId(userId);
         exerciseRepository.save(exerciseEntity);

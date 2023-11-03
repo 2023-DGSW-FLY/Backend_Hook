@@ -3,7 +3,10 @@ package com.innosync.hook.service;
 import com.innosync.hook.dto.HackathonDto;
 import com.innosync.hook.entity.HackathonEntity;
 import com.innosync.hook.repository.HackathonRepository;
+import com.innosync.hook.repository.UserRepository;
+import com.innosync.hook.req.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,6 +17,7 @@ import java.util.stream.Collectors;
 public class HackathonServiceImpl implements HackathonService{
 
     private final HackathonRepository hackathonRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Map<String , List<HackathonDto>> getAllAccess() {
@@ -66,11 +70,18 @@ public class HackathonServiceImpl implements HackathonService{
 
 
     @Override
-    public Long hackathonRegister(HackathonDto dto, String name, String userName , Long id) {
+    public Long hackathonRegister(HackathonDto dto, Authentication authentication) {
+
+        String name = authentication.getName();
+        Optional<User> userOptional = userRepository.findByUserAccount(name);
+        User user = userOptional.get();
+        String userName = user.getUser_name();
+        Long userId = user.getId();
+
         HackathonEntity hackathonEntity = dtoToEntity(dto);
         hackathonEntity.setWriter(name);
         hackathonEntity.setUserName(userName);
-        hackathonEntity.setUserId(id);
+        hackathonEntity.setUserId(userId);
         hackathonRepository.save(hackathonEntity);
         return hackathonEntity.getId();
     }

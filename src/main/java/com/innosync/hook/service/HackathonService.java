@@ -3,6 +3,7 @@ package com.innosync.hook.service;
 import com.innosync.hook.constant.Status;
 import com.innosync.hook.dto.HackathonDto;
 import com.innosync.hook.entity.HackathonEntity;
+import org.springframework.security.core.Authentication;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +20,7 @@ public interface HackathonService {
     //갯수로 가져오기
     Map<String, List<HackathonDto>> getRecentHackathons(int count);
     // C
-    Long hackathonRegister(HackathonDto dto, String name, String userName, Long id);
+    Long hackathonRegister(HackathonDto dto, Authentication authentication);
     // R
     Map<String, HackathonDto> hackathonRead(Long id);
     // U

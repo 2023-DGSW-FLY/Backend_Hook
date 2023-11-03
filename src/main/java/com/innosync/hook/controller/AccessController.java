@@ -26,12 +26,11 @@ import java.util.stream.Collectors;
 public class AccessController {
 
     private final AccessService service;
-    private final UserRepository userRepository;
 
     // 자신이 작성한 글 모두 불러오기
     @GetMapping("/all")
-    public Map<String, List<AccessDto>> getAllAccess() {
-        return service.getAllAccess();
+    public Map<String, List<AccessDto>> getAllAccess(Authentication authentication) {
+        return service.getAllMyContest(authentication);
     }
 
 
@@ -91,11 +90,7 @@ public class AccessController {
     public Map<String , String> register(
             @RequestBody AccessDto dto, Authentication authentication
     ){
-        String username = authentication.getName();
-        Optional<User> userOptional = userRepository.findByUserAccount(username);
-        Long userId = userOptional.get().getId();
-        service.register(dto,username,userId);
-
+        service.register(dto,authentication);
         Map<String, String> data = new HashMap<>();
         data.put("Success" , "Success");
 

@@ -11,6 +11,7 @@ import com.innosync.hook.req.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,7 +27,10 @@ public class SupportServiceImpl implements SupportService {
     private final UserRepository userRepository;
 
     @Override
-    public ResponseEntity applyToHackathon(Long hackathonId, SupportDto supportDto, String userAccount) {
+    public ResponseEntity applyToHackathon(Long hackathonId, SupportDto supportDto, Authentication authentication) {
+
+        String userAccount = authentication.getName();
+
         Map<String, String> data = new HashMap<>();
         Optional<HackathonEntity> hackathonEntityOptional = hackathonRepository.findById(hackathonId);
         Optional<User> user = userRepository.findByUserAccount(userAccount);

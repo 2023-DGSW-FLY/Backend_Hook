@@ -4,13 +4,14 @@ import com.innosync.hook.constant.Status;
 import com.innosync.hook.dto.AccessDto;
 import com.innosync.hook.dto.HackathonDto;
 import com.innosync.hook.entity.AccessEntity;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 import java.util.Map;
 
 public interface AccessService {
     //자신이 작성한 모든글 반환
-    Map<String, Object> getAllMyContest(String username);
+    Map<String, List<AccessDto>> getAllMyContest(Authentication authentication);
     //get all
     Map<String, List<AccessDto>> getAllAccess();
     // parameter 값으로
@@ -23,7 +24,7 @@ public interface AccessService {
     void changeMatching(Long accessId);
 
     // C
-    Long register(AccessDto dto, String username, Long userId);
+    Long register(AccessDto dto, Authentication authentication);
     // R
     Map<String, AccessDto> read(Long id);
     // U

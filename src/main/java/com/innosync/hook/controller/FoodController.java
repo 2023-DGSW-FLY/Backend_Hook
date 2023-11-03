@@ -20,15 +20,15 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 public class FoodController {
+
     private final FoodService service;
-    private final UserRepository repository;
 
 
     //자신이 작성한 모든 글 받아오기
     @GetMapping("/all")
     public Map<String, Object> getAllMyContest(Authentication authentication){
         String username = authentication.getName();
-        return service.getAllMyContest(username);
+        return service.getAllMyContest(authentication);
     }
 
 //    // 모든값 가져오기
@@ -64,12 +64,8 @@ public class FoodController {
             @RequestBody FoodDto dto , Authentication authentication
 
     ){
-        String username = authentication.getName();
-        Optional<User> userOptional = repository.findByUserAccount(username);
-        User user = userOptional.get(); // User정보 받아서
-        Long userId = user.getId(); //정보중 user_id 만 추출하여 userId에 저장
-        String userName = user.getUser_name();
-        service.foodRegister(dto,username,userId,userName);
+
+        service.foodRegister(dto,authentication);
         Map<String, String> data = new HashMap<>();
         data.put("Success" , "Success");
         return data;

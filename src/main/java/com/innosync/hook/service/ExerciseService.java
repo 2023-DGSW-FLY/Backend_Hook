@@ -3,6 +3,7 @@ package com.innosync.hook.service;
 import com.innosync.hook.constant.Status;
 import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.entity.ExerciseEntity;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ public interface ExerciseService {
 
 
     //자신이 작성한 모든글 반환
-    Map<String, Object> getAllMyContest(String username);
+    Map<String, Object> getAllMyContest(Authentication authentication);
 
     // 모든 값 반환
     Map<String, List<ExerciseDto>> getAllAccess();
@@ -20,7 +21,7 @@ public interface ExerciseService {
     Map<String, List<ExerciseDto>> getRecentExercise(int count);
 
     // C
-    Long exerciseRegister(ExerciseDto dto, String name, Long userId, String userName);
+    Long exerciseRegister(ExerciseDto dto, Authentication authentication);
 
     Map<String, Object> getAccessByTag(String tag);
 

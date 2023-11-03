@@ -19,7 +19,6 @@ import java.util.Optional;
 public class SupportController {
 
     private final SupportService service;
-    private final UserRepository repository;
 
     @PostMapping("/{hackathonId}/apply")
     public ResponseEntity applyToHackathon(
@@ -27,12 +26,7 @@ public class SupportController {
             @RequestBody SupportDto supportDto,
             Authentication authentication
     ) {
-        String username = authentication.getName();
-        Optional<User> userOptional = repository.findByUserAccount(username);
-        User user = userOptional.get(); // User정보 받아서
-        Long userId = user.getId(); //정보중 user_id 만 추출하여 userId에 저장
-        String userAccount = user.getUserAccount();
-        return service.applyToHackathon(hackathonId, supportDto, userAccount);
+        return service.applyToHackathon(hackathonId, supportDto, authentication);
     }
 
     @GetMapping("/{hackathonId}/supports")
