@@ -10,7 +10,7 @@ build/
 .classpath
 .factorypath
 .project
-.settings
+.settingscom.apple.desktopservices DSDontWriteNetworkStores true
 .springBeans
 .sts4-cache
 bin/
