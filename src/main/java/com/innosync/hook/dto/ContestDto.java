@@ -18,4 +18,6 @@ public class ContestDto {
 
     private String dateTime; //대회 일시
 
+    private String url; // 대회 url
+
 }

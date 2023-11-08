@@ -24,6 +24,9 @@ public class ContestEntity {
     private String imgUrl;
 
     @Column
+    private String url;
+
+    @Column
     private String dateTime;
 
     @Column

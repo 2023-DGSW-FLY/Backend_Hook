@@ -41,6 +41,8 @@ public class ContestService {
             // li:nth-child(1) () 안에 값 바꿔서 게시물 순서 조정가능
             String selector2 = String.format("#content > div > section.event_main_area > ul > li:nth-child(%d) > article.event_area.event_main > a > div.event_info_area > div.event_info > div.date", i);
             Elements dateContents = doc.select(selector2);
+            String selector3 = String.format("#content > div > section.event_main_area > ul > li:nth-child(%d) > article.event_area.event_main > a" , i);
+            Elements url = doc.select(selector3);
             if (!contents.isEmpty() && !dateContents.isEmpty()) {
                 Element imgElement = contents.get(0);
                 String altText = imgElement.attr("alt");
@@ -49,6 +51,11 @@ public class ContestService {
                 Element dateElement = dateContents.get(0);
                 String dateInfo = dateElement.text();
 
+                Element urlElement = url.get(0);
+                String urll = urlElement.attr("href");
+//                System.out.println("========================================"+urll+"========================================");
+
+                String contestUrl = "https://www.onoffmix.com"+urll;
                 System.out.println("Alt Text: " + altText);
                 System.out.println("Image URL: " + srcUrl);
                 System.out.println("Date Info: " + dateInfo);
@@ -56,6 +63,7 @@ public class ContestService {
                 ContestDto contestDto = ContestDto.builder()
                         .title(altText)
                         .imgUrl(srcUrl)
+                        .url(contestUrl)
                         .dateTime(dateInfo)
                         .build();
 
@@ -63,6 +71,7 @@ public class ContestService {
                         .title(contestDto.getTitle())
                         .imgUrl(contestDto.getImgUrl())
                         .dateTime(contestDto.getDateTime())
+                        .url(contestDto.getUrl())
                         .timestamp(System.currentTimeMillis())
                         .build();
                 List<ContestEntity> matchingContests = contestRepository.findAllByTitleContaining(contestDto.getTitle());
@@ -113,6 +122,7 @@ public class ContestService {
                 .id(contestEntity.getId())
                 .title(contestEntity.getTitle())
                 .imgUrl(contestEntity.getImgUrl())
+                .url(contestEntity.getUrl())
                 .dateTime(contestEntity.getDateTime())
                 .build();
     }
