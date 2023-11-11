@@ -1,7 +1,6 @@
 package com.innosync.hook.service;
 
 import com.innosync.hook.constant.Status;
-import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.dto.FoodDto;
 import com.innosync.hook.entity.FoodEntity;
 import org.springframework.security.core.Authentication;
@@ -20,7 +19,7 @@ public interface FoodService {
     // parameter 값으로 반환
     Map<String, List<FoodDto>> getRecentFood(int count);
     // C
-    Long foodRegister(FoodDto dto, Authentication authentication);
+    void foodRegister(FoodDto dto, Authentication authentication);
 
     // R
     Map<String, FoodDto> foodRead(Long id);

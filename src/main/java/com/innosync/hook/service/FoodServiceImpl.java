@@ -1,10 +1,7 @@
 package com.innosync.hook.service;
 
-import com.innosync.hook.dto.ExerciseDto;
 import com.innosync.hook.dto.FoodDto;
-import com.innosync.hook.entity.ExerciseEntity;
 import com.innosync.hook.entity.FoodEntity;
-import com.innosync.hook.entity.HackathonEntity;
 import com.innosync.hook.repository.FoodRepository;
 import com.innosync.hook.repository.UserRepository;
 import com.innosync.hook.req.User;
@@ -66,7 +63,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Long foodRegister(FoodDto dto , Authentication authentication) {
+    public void foodRegister(FoodDto dto , Authentication authentication) {
 
         String userAccount = authentication.getName();
         Optional<User> userOptional = userRepository.findByUserAccount(userAccount);
@@ -79,7 +76,6 @@ public class FoodServiceImpl implements FoodService {
         foodEntity.setUserName(userName);
         foodEntity.setUserId(userId);
         foodRepository.save(foodEntity);
-        return foodEntity.getId();
     }
 
     @Override
