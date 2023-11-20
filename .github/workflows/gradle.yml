@@ -38,16 +38,13 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build -x test
 
-      # Docker build & push to prod
-      - name: Docker build & push
+      # docker build & push to production
+      - name: Docker build & push to prod
         if: contains(github.ref, 'main')
         run: |
-          echo "${DOCKER_PASSWORD}" | sudo docker login -u "${DOCKER_USERNAME}" --password-stdin
-          sudo docker build --platform linux/amd64 -t "/hook" .
-          sudo docker push "/hook"
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          sudo docker build --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/hook .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/hook
 
 
       ## deploy to production
