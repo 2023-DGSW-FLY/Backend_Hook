@@ -42,7 +42,7 @@ jobs:
       - name: Docker build & push
         if: contains(github.ref, 'main')
         run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          echo "${DOCKER_PASSWORD}" | sudo docker login -u "${DOCKER_USERNAME}" --password-stdin
           sudo docker build --platform linux/amd64 -t "/hook" .
           sudo docker push "/hook"
         env:
