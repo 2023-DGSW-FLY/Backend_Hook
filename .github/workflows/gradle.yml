@@ -65,3 +65,11 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/hook
             sudo docker run -d -p 443:443 ${{ secrets.DOCKER_USERNAME }}/hook
             sudo docker image prune -f
+            - name: Debug
+              run: |
+                echo "DOCKER_USERNAME: $DOCKER_USERNAME"
+                echo "DOCKER_PASSWORD: $DOCKER_PASSWORD"
+      - name: Debug
+        run: |
+          echo "DOCKER_USERNAME: $DOCKER_USERNAME"
+          echo "DOCKER_PASSWORD: $DOCKER_PASSWORD"
