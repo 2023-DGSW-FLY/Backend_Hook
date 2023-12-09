@@ -4,5 +4,5 @@
 
 사용 스택
 -
-- Spring 2.7.9
+- Spring 3.1.5
 - AWS (EC2, RDS)
